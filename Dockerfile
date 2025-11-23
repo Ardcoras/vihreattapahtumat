@@ -22,7 +22,7 @@ COPY patches/ /var/www/patches/
 COPY scripts/ /var/www/scripts/
 COPY composer.json /var/www/composer.json
 COPY composer.lock /var/www/composer.lock
-#RUN cd /var/www; composer install
+RUN cd /var/www; composer install
 
 # Then do the rest.
 RUN echo "display_errors=Off\nmemory_limit=256M\nlog_errors = On" > /usr/local/etc/php/conf.d/docker-image.ini

@@ -1,0 +1,11 @@
+uuid: 136f4920-ae14-4ba3-9bb2-2a9efd596533
+langcode: fi
+status: true
+dependencies:
+  config:
+    - node.type.organisation
+id: node.organisation
+target_entity_type_id: node
+target_bundle: organisation
+default_langcode: site_default
+language_alterable: false

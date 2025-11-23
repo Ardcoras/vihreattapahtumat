@@ -1,0 +1,33 @@
+services:
+  web:
+    environment:
+      - PLATFORM=drupal
+#    image: docker-php-new
+    volumes:
+      - .:/var/www/:Z
+      # TODO: Should we use this?
+#      - logvolume01:/var/log
+    external_links:
+      - mariadb:mysql
+      - mailhog:mailhog
+    build:
+      context: .
+#    build:
+#      context: https://github.com/CitrusSolutions/docker-php.git#master
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ardcoras-app.rule=Host(`vihreattapahtumat.docker.so`)"
+      - "traefik.http.services.ardcoras-app.loadbalancer.server.port=80"
+      - "traefik.docker.network=traefik"
+    networks:
+      - traefik
+      - mariadb
+    env_file:
+      - .env.local
+volumes:
+  logvolume01: {}
+networks:
+  traefik:
+    external: true
+  mariadb:
+    external: true

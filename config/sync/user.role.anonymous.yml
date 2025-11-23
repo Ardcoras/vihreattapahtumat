@@ -1,0 +1,20 @@
+uuid: 9f827486-89e4-42e9-943b-3362a553b286
+langcode: fi
+status: true
+dependencies:
+  config:
+    - filter.format.formatted_text
+  module:
+    - filter
+    - media
+    - system
+_core:
+  default_config_hash: j5zLMOdJBqC0bMvSdth5UebkprJB8g_2FXHqhfpJzow
+id: anonymous
+label: 'Anonyymi käyttäjä'
+weight: 0
+is_admin: false
+permissions:
+  - 'access content'
+  - 'use text format formatted_text'
+  - 'view media'

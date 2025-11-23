@@ -1,0 +1,22 @@
+uuid: 5fadc70e-1ec6-416d-8d5e-6aee06f05076
+langcode: fi
+status: true
+dependencies:
+  theme:
+    - claro
+_core:
+  default_config_hash: ACjBZI5shAMiiUpsz-inLYVXDqNNXRnSzAWV3kV_8Hw
+id: claro_primary_local_tasks
+theme: claro
+region: header
+weight: 0
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: 'Ensisijaiset välilehdet'
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: false
+visibility: {  }

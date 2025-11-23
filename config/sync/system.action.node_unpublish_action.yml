@@ -1,0 +1,13 @@
+uuid: 4ddc5cb2-bb45-4cfa-89ba-d4c00c5fdb72
+langcode: fi
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: C7X8h9FWlwkQ9y5mnU2JzgaZICAdc6HFbPVbhvjlAYE
+id: node_unpublish_action
+label: 'Muuta sisältö ei-julkaistuksi'
+type: node
+plugin: 'entity:unpublish_action:node'
+configuration: {  }

@@ -1,0 +1,13 @@
+uuid: 8bc105ec-1e48-4580-8e26-3e97c9127b90
+langcode: fi
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: t43OqwzP3CTbcAagSsWKNy6KwMm_zShXo3c4-So6rQg
+id: node_delete_action
+label: 'Poista sisältö'
+type: node
+plugin: 'entity:delete_action:node'
+configuration: {  }

@@ -1,0 +1,17 @@
+uuid: d0163d4f-70a1-4156-b3f1-8383a6f5b016
+langcode: fi
+status: true
+dependencies: {  }
+name: 'Muotoiltu teksti'
+format: formatted_text
+weight: 0
+filters:
+  filter_html:
+    id: filter_html
+    provider: filter
+    status: true
+    weight: -10
+    settings:
+      allowed_html: '<br> <p> <h2> <h3> <h4> <h5> <h6> <strong> <em>'
+      filter_html_help: true
+      filter_html_nofollow: false

@@ -1,0 +1,13 @@
+uuid: 06df61b0-2868-41bb-9645-f47f3f0c135e
+langcode: fi
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: KgGJDZFpMaz_8bTv6fN1bXS3Qi5LWmRJI9R53kEGsNQ
+id: node.teaser
+label: Lyhennelmä
+description: ''
+targetEntityType: node
+cache: true

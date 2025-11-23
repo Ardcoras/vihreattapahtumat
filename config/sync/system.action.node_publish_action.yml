@@ -1,0 +1,13 @@
+uuid: 1ce1ca5b-5742-4235-890f-2db713930c88
+langcode: fi
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: 2B9uF8NL5gutNKSdPRAhhAsDWFZZG1PJOBmx0aBGd_0
+id: node_publish_action
+label: 'Julkaise sisältö'
+type: node
+plugin: 'entity:publish_action:node'
+configuration: {  }

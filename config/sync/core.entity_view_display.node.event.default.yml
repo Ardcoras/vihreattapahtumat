@@ -1,0 +1,80 @@
+uuid: f0883379-cd29-42ff-99d7-30a53da4d6c9
+langcode: fi
+status: true
+dependencies:
+  config:
+    - field.field.node.event.field_description
+    - field.field.node.event.field_event_datetime
+    - field.field.node.event.field_event_organiser
+    - field.field.node.event.field_event_remote
+    - field.field.node.event.field_event_type
+    - field.field.node.event.field_place
+    - node.type.event
+  module:
+    - datetime_range
+    - text
+    - user
+id: node.event.default
+targetEntityType: node
+bundle: event
+mode: default
+content:
+  field_description:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_event_datetime:
+    type: daterange_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+      from_to: both
+      separator: '-'
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_event_organiser:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_event_remote:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  field_event_type:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_place:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true

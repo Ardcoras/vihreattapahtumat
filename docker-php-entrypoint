@@ -1,0 +1,27 @@
+#!/bin/sh
+
+set -e
+
+cat << END > /etc/msmtprc
+defaults
+port 587
+tls on
+tls_trust_file /etc/ssl/certs/ca-certificates.crt
+logfile -
+
+account mail
+host ${SMTP_HOST}
+auth on
+user ${SMTP_USER}
+password ${SMTP_PASSWORD}
+
+account default : mail
+END
+
+# The rest is from https://github.com/docker-library/php/blob/master/7.4/buster/apache/docker-php-entrypoint, which we're overriding
+# first arg is `-f` or `--some-option`
+if [ "${1#-}" != "$1" ]; then
+	set -- apache2-foreground "$@"
+fi
+
+exec "$@"

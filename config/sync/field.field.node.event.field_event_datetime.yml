@@ -1,0 +1,21 @@
+uuid: f856cb50-72d8-4465-b8b2-bed04961f1de
+langcode: fi
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_event_datetime
+    - node.type.event
+  module:
+    - datetime_range
+id: node.event.field_event_datetime
+field_name: field_event_datetime
+entity_type: node
+bundle: event
+label: Ajankohta
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: daterange

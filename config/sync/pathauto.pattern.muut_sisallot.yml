@@ -1,0 +1,22 @@
+uuid: 85b52614-5da6-46c5-8835-c30bd4585354
+langcode: fi
+status: true
+dependencies:
+  module:
+    - node
+id: muut_sisallot
+label: 'Muut sisällöt'
+type: 'canonical_entities:node'
+pattern: '/[node:title]'
+selection_criteria:
+  75bd4056-7adf-4dce-9667-ca399b8c48cb:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: 75bd4056-7adf-4dce-9667-ca399b8c48cb
+    context_mapping:
+      node: node
+    bundles:
+      organisation: organisation
+selection_logic: and
+weight: -5
+relationships: {  }

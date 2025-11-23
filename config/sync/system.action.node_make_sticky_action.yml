@@ -1,0 +1,13 @@
+uuid: 6a0dab97-13bb-4318-ba64-159b6ae73fb5
+langcode: fi
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: sOb26JSy3fGpWkvR0WYN6_hMqj_6d1rvbvrkzp1yya0
+id: node_make_sticky_action
+label: 'Liimaa sisältö listojen alkuun'
+type: node
+plugin: node_make_sticky_action
+configuration: {  }

@@ -1,0 +1,9 @@
+uuid: 6a4fa086-bb4d-455f-93b3-0a3b2e296263
+langcode: fi
+status: true
+dependencies: {  }
+name: Paikka
+vid: place
+description: null
+weight: 0
+new_revision: false

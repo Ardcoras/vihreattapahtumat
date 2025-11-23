@@ -1,0 +1,9 @@
+uuid: 6a2b38c8-0ecf-4ec0-8605-3f688cda7e2f
+langcode: fi
+status: true
+dependencies: {  }
+name: Tapahtumatyyppi
+vid: event_type
+description: null
+weight: 0
+new_revision: false

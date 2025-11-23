@@ -1,0 +1,17 @@
+uuid: 4c4fd7f4-ea6c-4a47-aa9f-692ca0a47800
+langcode: fi
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Tapahtuma
+type: event
+description: null
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: false

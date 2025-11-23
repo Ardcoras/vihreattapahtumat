@@ -1,0 +1,13 @@
+uuid: 6afa801b-f593-49a2-bd2d-817fe5edebf1
+langcode: fi
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: lDM9mvIGAu8Sw8rt-uCO4Sr7yX5VPrDPxYcawkbKd6k
+id: node_make_unsticky_action
+label: 'Poista sisällön liimaus'
+type: node
+plugin: node_make_unsticky_action
+configuration: {  }

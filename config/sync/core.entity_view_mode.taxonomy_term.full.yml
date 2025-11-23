@@ -1,0 +1,13 @@
+uuid: 4bb7277f-1b03-4d21-9597-3857c210c15c
+langcode: fi
+status: true
+dependencies:
+  module:
+    - taxonomy
+_core:
+  default_config_hash: iukUENpf8CFvjZbGGacKX_Ges0-lU9z6zvsd32P6kbo
+id: taxonomy_term.full
+label: 'Luokittelusanojen sivu'
+description: ''
+targetEntityType: taxonomy_term
+cache: true

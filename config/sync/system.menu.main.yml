@@ -1,0 +1,10 @@
+uuid: 8793f069-4619-41cf-9cd7-5bb130eca7e2
+langcode: fi
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: Q2Ra3jfoIVk0f3SjxJX61byRQFVBAbpzYDQOiY-kno8
+id: main
+label: Päävalikko
+description: 'Sivuston osioiden linkit'
+locked: true

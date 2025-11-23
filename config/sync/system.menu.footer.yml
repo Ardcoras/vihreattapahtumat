@@ -1,0 +1,10 @@
+uuid: a2d0c3a3-06f4-4195-8827-e73f1fb441a4
+langcode: fi
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: 7yrlW5z9zdg2eBucB2GPqXKSMQfH9lSRSO4DbWF7AFc
+id: footer
+label: Alatunniste
+description: 'Linkit sivustoa koskeviin tietoihin'
+locked: true

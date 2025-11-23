@@ -1,0 +1,10 @@
+uuid: 746879cf-f97d-4b02-9133-41b9c7c91b0f
+langcode: fi
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: BCM-vV1zzRaLHN18dqAR_CuGOj8AFJvTx7BKl_8Gcxc
+id: tools
+label: Työkalut
+description: 'Linkit käyttäjän työkaluihin, usein moduulien lisäämiä'
+locked: true

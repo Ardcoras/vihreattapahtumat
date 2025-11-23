@@ -1,0 +1,29 @@
+uuid: 4bdc9765-dcdb-4d05-89b4-8b104c94f4c8
+langcode: fi
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_place
+    - node.type.event
+    - taxonomy.vocabulary.place
+id: node.event.field_place
+field_name: field_place
+entity_type: node
+bundle: event
+label: Sijainti
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      place: place
+    sort:
+      field: name
+      direction: asc
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

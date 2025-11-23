@@ -1,0 +1,20 @@
+uuid: 18c6db01-1f56-4352-858b-60cd914bbe1d
+langcode: fi
+status: true
+dependencies:
+  theme:
+    - gin
+_core:
+  default_config_hash: OQ9aJ-4qVwK1x00o9EOYK4eFDjQr_HLpbPiJaPSVZiQ
+id: gin_local_actions
+theme: gin
+region: content
+weight: -10
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Ensisijaiset ylläpidon toimenpiteet'
+  label_display: '0'
+  provider: core
+visibility: {  }

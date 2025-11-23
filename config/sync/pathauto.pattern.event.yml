@@ -1,0 +1,22 @@
+uuid: 68698567-0574-4555-8688-4074ebc94fec
+langcode: fi
+status: true
+dependencies:
+  module:
+    - node
+id: event
+label: Tapahtuma
+type: 'canonical_entities:node'
+pattern: 'tapahtuma/[node:field_event_datetime:end_date:custom:Y-j-n]_[node:title]'
+selection_criteria:
+  b750a16c-17cf-4288-ba49-2d591b6cb6ca:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: b750a16c-17cf-4288-ba49-2d591b6cb6ca
+    context_mapping:
+      node: node
+    bundles:
+      event: event
+selection_logic: and
+weight: -5
+relationships: {  }

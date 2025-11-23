@@ -1,0 +1,9 @@
+uuid: 056a6a33-e170-4536-b18c-f68a09bd2acd
+langcode: fi
+status: true
+dependencies: {  }
+id: fi
+label: Suomi
+direction: ltr
+weight: 0
+locked: false

@@ -1,0 +1,13 @@
+uuid: 00411b82-28a0-4f8e-801a-152e00f44372
+langcode: fi
+status: false
+dependencies:
+  module:
+    - media
+_core:
+  default_config_hash: dTfAUHooYV0uOVPO3saGpgv-c5PppJXDwxvwRTJOycM
+id: media.full
+label: 'Koko sisältö'
+description: ''
+targetEntityType: media
+cache: true

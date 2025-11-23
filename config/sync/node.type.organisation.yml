@@ -1,0 +1,17 @@
+uuid: 0cd52051-b762-4a9d-b1c7-2deeb6d00c9e
+langcode: fi
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Järjestö
+type: organisation
+description: null
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: false

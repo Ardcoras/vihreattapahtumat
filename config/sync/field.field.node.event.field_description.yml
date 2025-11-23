@@ -1,0 +1,22 @@
+uuid: dab83b15-c519-49ca-9fa9-f1525a5973ba
+langcode: fi
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_description
+    - node.type.event
+  module:
+    - text
+id: node.event.field_description
+field_name: field_description
+entity_type: node
+bundle: event
+label: Kuvaus
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

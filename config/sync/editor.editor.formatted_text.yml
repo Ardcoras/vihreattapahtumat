@@ -1,0 +1,26 @@
+uuid: 345b6ac6-a42a-40fa-9a82-089bd3fa2b8e
+langcode: fi
+status: true
+dependencies:
+  config:
+    - filter.format.formatted_text
+  module:
+    - ckeditor5
+format: formatted_text
+editor: ckeditor5
+settings:
+  toolbar:
+    items:
+      - heading
+      - bold
+      - italic
+  plugins:
+    ckeditor5_heading:
+      enabled_headings:
+        - heading2
+        - heading3
+        - heading4
+        - heading5
+        - heading6
+image_upload:
+  status: false

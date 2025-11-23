@@ -1,0 +1,21 @@
+uuid: a9d8efe5-ab93-460c-b3db-d8b57c7d444b
+langcode: fi
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_event_remote
+    - node.type.event
+id: node.event.field_event_remote
+field_name: field_event_remote
+entity_type: node
+bundle: event
+label: Etämahdollisuus
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: Käytössä
+  off_label: 'Pois päältä'
+field_type: boolean

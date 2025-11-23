@@ -1,0 +1,15 @@
+_core:
+  default_config_hash: HlN7eAN2N4JIHsYv56V4E7sqC9bS609KwvGFjyD_mgk
+langcode: fi
+uuid: cf1cb06a-4da9-46b0-93e4-e35d7d0ef7ca
+name: 'Vihreät tapahtumat'
+mail: jyri-petteri.paloposki@vihreat.fi
+slogan: ''
+page:
+  403: ''
+  404: ''
+  front: /calendar
+admin_compact_mode: false
+weight_select_max: 100
+default_langcode: fi
+mail_notification: null

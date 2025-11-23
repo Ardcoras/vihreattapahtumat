@@ -1,0 +1,10 @@
+uuid: f20701c6-9e70-48c7-9b08-631b0c23d3c9
+langcode: fi
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: sapEi2YDGoI9yQIT_WgIV2vUdQ6DScH0V3fAyTadAL0
+id: admin
+label: Ylläpito
+description: 'Ylläpidon linkit'
+locked: true

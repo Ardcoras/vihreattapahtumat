@@ -1,0 +1,11 @@
+uuid: fa834ce4-bb30-4a12-b89f-eaee14971ea2
+langcode: fi
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.place
+id: taxonomy_term.place
+target_entity_type_id: taxonomy_term
+target_bundle: place
+default_langcode: site_default
+language_alterable: false

@@ -1,0 +1,16 @@
+uuid: b50d103e-e229-4668-b50e-17593bcea2b0
+langcode: fi
+status: true
+dependencies:
+  module:
+    - pathauto
+  enforced:
+    module:
+      - user
+_core:
+  default_config_hash: 6eiNWATGTd3lUEKuxNPNyDRDVMsUlM0HS90_R6JJLUI
+id: pathauto_update_alias_user
+label: 'Päivitä osoitealias'
+type: user
+plugin: pathauto_update_alias
+configuration: {  }

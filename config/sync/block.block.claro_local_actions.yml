@@ -1,0 +1,20 @@
+uuid: 36a3eb0d-87e6-4e26-b68e-331ad69ce57e
+langcode: fi
+status: true
+dependencies:
+  theme:
+    - claro
+_core:
+  default_config_hash: CdXfDmRgAvms7EQovxxWPdYi0GitxeRbVtScYK16ZH0
+id: claro_local_actions
+theme: claro
+region: content
+weight: -10
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Ensisijaiset ylläpidon toimenpiteet'
+  label_display: '0'
+  provider: core
+visibility: {  }

@@ -1,0 +1,10 @@
+uuid: 69e37daf-fc1e-4303-9164-c6c93372711e
+langcode: fi
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: SAeixlV7Djy_Ggv_1P95TiqD4KUihA5icvU521tA84Y
+id: short
+label: 'Päivämäärä lyhyessä muodossa'
+locked: false
+pattern: 'j M Y - H:i'

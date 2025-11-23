@@ -1,0 +1,13 @@
+uuid: 848b551c-a78a-4afc-a90c-c2aeb9c2a9fc
+langcode: fi
+status: true
+dependencies:
+  module:
+    - taxonomy
+_core:
+  default_config_hash: DoVt_VGgVLcDD4XmVbSFzr0K17SJy9imFiYusKkJBgY
+id: taxonomy_term_publish_action
+label: 'Julkaise luokittelutermi'
+type: taxonomy_term
+plugin: 'entity:publish_action:taxonomy_term'
+configuration: {  }

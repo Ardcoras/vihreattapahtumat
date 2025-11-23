@@ -1,0 +1,13 @@
+uuid: 09024d3c-13ba-4ccf-b2ed-33a5a2775e4a
+langcode: fi
+status: true
+dependencies:
+  module:
+    - user
+_core:
+  default_config_hash: nvrL9bFilzBvm2bjO9rQnFDpBA7dBBUjShSSt6NS-DU
+id: user_cancel_user_action
+label: 'Poista valitut käyttäjätilit'
+type: user
+plugin: user_cancel_user_action
+configuration: {  }

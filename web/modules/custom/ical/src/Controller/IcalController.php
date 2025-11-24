@@ -33,15 +33,23 @@ class IcalController implements ContainerInjectionInterface {
   }
 
   public function getIcal(Request $request): Response {
-    $organisers = (int) $request->query->get('organiser');
-
     $storage = $this->entityTypeManager
       ->getStorage('node');
     $query = $storage
       ->getQuery()
       ->condition('type', 'event')
-      ->condition('field_event_organiser', $organisers)
       ->accessCheck(FALSE);
+
+    $organisers = (int) $request->query->get('organiser');
+    if (!empty($organisers)) {
+      $query->condition('field_event_organiser', $organisers);
+    }
+
+    $city = $request->query->get('city');
+    if (!empty($city)) {
+      $query->condition('field_place.entity:taxonomy_term.field_address_city', $city);
+    }
+
     $res = $query->execute();
 
     $nodes = $storage->loadMultiple($res);

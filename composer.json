@@ -24,8 +24,8 @@
         "drupal/gin": "^5.0",
         "drupal/optional_end_date": "^1.4",
         "drupal/pathauto": "^1.14",
-        "drupal/views_ical": "~1.0@alpha",
-        "drush/drush": "^13.6"
+        "drush/drush": "^13.6",
+        "eluceo/ical": "^2"
     },
     "conflict": {
         "drupal/drupal": "*"

@@ -1,0 +1,6 @@
+ical:
+  path: '/events.ics'
+  defaults:
+    _controller: '\Drupal\ical\Controller\IcalController::getIcal'
+  requirements:
+    _permission: 'access content'

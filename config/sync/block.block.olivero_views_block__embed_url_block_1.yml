@@ -1,0 +1,34 @@
+uuid: 2520a30a-5c34-40f6-854f-1f071592d39b
+langcode: fi
+status: true
+dependencies:
+  config:
+    - views.view.embed_url
+  module:
+    - node
+    - views
+  theme:
+    - olivero
+id: olivero_views_block__embed_url_block_1
+theme: olivero
+region: content
+weight: 0
+provider: null
+plugin: 'views_block:embed_url-block_1'
+settings:
+  id: 'views_block:embed_url-block_1'
+  label: Upotusosoite
+  label_display: '0'
+  provider: views
+  context_mapping:
+    nid: '@node.node_route_context:node'
+  views_label: Upotusosoite
+  items_per_page: null
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      organisation: organisation

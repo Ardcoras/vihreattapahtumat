@@ -1,0 +1,24 @@
+uuid: b40f175f-a002-491d-9500-31ecbf235eb9
+langcode: fi
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_body
+    - filter.format.formatted_text
+    - node.type.page
+  module:
+    - text
+id: node.page.field_body
+field_name: field_body
+entity_type: node
+bundle: page
+label: Teksti
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - formatted_text
+field_type: text_long

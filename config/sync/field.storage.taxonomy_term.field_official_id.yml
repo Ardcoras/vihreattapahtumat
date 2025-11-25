@@ -1,11 +1,11 @@
-uuid: 267caade-326a-4c00-b616-31547cedd6f4
+uuid: 7d35f12d-0294-4fb8-b11e-75319534f9f6
 langcode: fi
 status: true
 dependencies:
   module:
     - taxonomy
-id: taxonomy_term.field_address_city
-field_name: field_address_city
+id: taxonomy_term.field_official_id
+field_name: field_official_id
 entity_type: taxonomy_term
 type: string
 settings:

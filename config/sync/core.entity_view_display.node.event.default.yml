@@ -64,10 +64,11 @@ content:
     weight: 104
     region: content
   field_place:
-    type: entity_reference_label
+    type: entity_reference_entity_view
     label: above
     settings:
-      link: true
+      view_mode: embed
+      link: false
     third_party_settings: {  }
     weight: 105
     region: content

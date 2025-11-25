@@ -47,7 +47,7 @@ class IcalController implements ContainerInjectionInterface {
 
     $city = $request->query->get('city');
     if (!empty($city)) {
-      $query->condition('field_place.entity:taxonomy_term.field_address_city', $city);
+      $query->condition('field_place.entity:taxonomy_term.field_municipality.entity:taxonomy_term.field_official_id', $city);
     }
 
     $res = $query->execute();
@@ -65,17 +65,17 @@ class IcalController implements ContainerInjectionInterface {
       $location_parts = [
         $location->getName(),
         (string) $location->field_street_address->getString(),
-        (string) $location->field_address_city->getString(),
+        $location->field_municipality->entity->getName(),
       ];
       $event->setLocation(new \Eluceo\iCal\Domain\ValueObject\Location(implode(', ', $location_parts)));
       $event->setUrl(new \Eluceo\iCal\Domain\ValueObject\Uri($node->toUrl('canonical', ['absolute' => TRUE])->toString()));
       $event->setOccurrence(
         new \Eluceo\iCal\Domain\ValueObject\TimeSpan(
           new \Eluceo\iCal\Domain\ValueObject\DateTime(
-            \DateTimeImmutable::createFromFormat('Y-m-d\TH:i:s', $node->field_event_datetime->getValue()[0]['value']), FALSE
+            \DateTimeImmutable::createFromFormat('Y-m-d\TH:i:s', $node->field_event_datetime->getValue()[0]['value'], new \DateTimeZone('UTC')), TRUE
           ),
           new \Eluceo\iCal\Domain\ValueObject\DateTime(
-            \DateTimeImmutable::createFromFormat('Y-m-d\TH:i:s', $node->field_event_datetime->getValue()[0]['end_value']), FALSE
+            \DateTimeImmutable::createFromFormat('Y-m-d\TH:i:s', $node->field_event_datetime->getValue()[0]['end_value'], new \DateTimeZone('UTC')), TRUE
           )
         )
       );

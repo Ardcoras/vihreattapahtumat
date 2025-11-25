@@ -1,0 +1,31 @@
+uuid: 50a38e75-24c2-4777-b6fc-90036188f854
+langcode: fi
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.municipality.field_official_id
+    - taxonomy.vocabulary.municipality
+  module:
+    - text
+id: taxonomy_term.municipality.default
+targetEntityType: taxonomy_term
+bundle: municipality
+mode: default
+content:
+  description:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_official_id:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  langcode: true

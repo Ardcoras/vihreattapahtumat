@@ -1,0 +1,9 @@
+uuid: 7a09bc97-1bf1-4e3b-a0a9-a1dc3445a3c0
+langcode: fi
+status: true
+dependencies: {  }
+id: admin
+label: Ylläpitäjä
+weight: 2
+is_admin: true
+permissions: {  }

@@ -1,17 +1,18 @@
-uuid: d5c8f745-2d7a-4e58-bb9c-7c6310921e59
+uuid: d22294e3-0fe2-4cce-9d52-74423576fa2d
 langcode: fi
 status: true
 dependencies:
   config:
+    - core.entity_view_mode.taxonomy_term.embed
     - field.field.taxonomy_term.place.field_municipality
     - field.field.taxonomy_term.place.field_street_address
     - taxonomy.vocabulary.place
   module:
     - text
-id: taxonomy_term.place.default
+id: taxonomy_term.place.embed
 targetEntityType: taxonomy_term
 bundle: place
-mode: default
+mode: embed
 content:
   description:
     type: text_default
@@ -19,14 +20,6 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 0
-    region: content
-  field_municipality:
-    type: entity_reference_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 5
     region: content
   field_street_address:
     type: string
@@ -37,4 +30,5 @@ content:
     weight: 3
     region: content
 hidden:
+  field_municipality: true
   langcode: true

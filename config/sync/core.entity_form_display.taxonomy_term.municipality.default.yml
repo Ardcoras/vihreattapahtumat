@@ -1,40 +1,29 @@
-uuid: 29065aed-a460-430d-8534-f979b90e391a
+uuid: 716cbfb6-9646-415d-a52f-0eeb08fbb70d
 langcode: fi
 status: true
 dependencies:
   config:
-    - field.field.taxonomy_term.place.field_municipality
-    - field.field.taxonomy_term.place.field_street_address
-    - taxonomy.vocabulary.place
+    - field.field.taxonomy_term.municipality.field_official_id
+    - taxonomy.vocabulary.municipality
   module:
     - path
     - text
-id: taxonomy_term.place.default
+id: taxonomy_term.municipality.default
 targetEntityType: taxonomy_term
-bundle: place
+bundle: municipality
 mode: default
 content:
   description:
-    type: text_textarea
-    weight: 3
+    type: text_textfield
+    weight: 0
     region: content
     settings:
-      rows: 5
-      placeholder: ''
-    third_party_settings: {  }
-  field_municipality:
-    type: entity_reference_autocomplete
-    weight: 26
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_street_address:
+  field_official_id:
     type: string_textfield
-    weight: 1
+    weight: 101
     region: content
     settings:
       size: 60
@@ -42,14 +31,14 @@ content:
     third_party_settings: {  }
   langcode:
     type: language_select
-    weight: 4
+    weight: 2
     region: content
     settings:
       include_locked: true
     third_party_settings: {  }
   name:
     type: string_textfield
-    weight: 0
+    weight: -5
     region: content
     settings:
       size: 60
@@ -57,13 +46,13 @@ content:
     third_party_settings: {  }
   path:
     type: path
-    weight: 5
+    weight: 30
     region: content
     settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 6
+    weight: 100
     region: content
     settings:
       display_label: true

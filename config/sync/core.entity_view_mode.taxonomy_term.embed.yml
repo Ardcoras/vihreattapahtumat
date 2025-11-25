@@ -1,0 +1,11 @@
+uuid: 43c94a86-7f37-4910-bd69-eefd5c4041b2
+langcode: fi
+status: true
+dependencies:
+  module:
+    - taxonomy
+id: taxonomy_term.embed
+label: Upotus
+description: null
+targetEntityType: taxonomy_term
+cache: true

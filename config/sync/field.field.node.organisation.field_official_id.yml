@@ -1,0 +1,19 @@
+uuid: 8e581e92-4405-4a98-af79-356c835a2ffe
+langcode: fi
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_official_id
+    - node.type.organisation
+id: node.organisation.field_official_id
+field_name: field_official_id
+entity_type: node
+bundle: organisation
+label: ID
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,14 @@
+uuid: ed5c3925-e5a0-4a95-b964-c228237e4de5
+langcode: fi
+status: true
+dependencies:
+  config:
+    - user.role.admin
+  module:
+    - user
+id: user_add_role_action.admin
+label: 'Add the Ylläpitäjä role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: admin

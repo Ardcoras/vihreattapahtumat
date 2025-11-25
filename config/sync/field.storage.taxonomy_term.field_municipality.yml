@@ -1,0 +1,19 @@
+uuid: 1ba8a2cb-b575-46f3-b0bf-2a7d74b7ca8e
+langcode: fi
+status: true
+dependencies:
+  module:
+    - taxonomy
+id: taxonomy_term.field_municipality
+field_name: field_municipality
+entity_type: taxonomy_term
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

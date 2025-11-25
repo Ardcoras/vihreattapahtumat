@@ -1,0 +1,11 @@
+uuid: 9f34dd7d-a3d6-42e8-911f-528d4e55da3a
+langcode: fi
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.municipality
+id: taxonomy_term.municipality
+target_entity_type_id: taxonomy_term
+target_bundle: municipality
+default_langcode: site_default
+language_alterable: false

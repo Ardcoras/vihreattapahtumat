@@ -1,18 +1,18 @@
-uuid: 88d6f600-2d64-476d-81da-a4113236b3c1
+uuid: 77067aca-ec12-4226-84fb-7b5c520ee1a1
 langcode: fi
 status: true
 dependencies:
   config:
-    - field.storage.node.field_event_type
-    - node.type.event
-    - taxonomy.vocabulary.event_type
-id: node.event.field_event_type
-field_name: field_event_type
-entity_type: node
-bundle: event
-label: Tyyppi
+    - field.storage.taxonomy_term.field_municipality
+    - taxonomy.vocabulary.municipality
+    - taxonomy.vocabulary.place
+id: taxonomy_term.place.field_municipality
+field_name: field_municipality
+entity_type: taxonomy_term
+bundle: place
+label: Kunta
 description: ''
-required: true
+required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
@@ -20,7 +20,7 @@ settings:
   handler: 'default:taxonomy_term'
   handler_settings:
     target_bundles:
-      event_type: event_type
+      municipality: municipality
     sort:
       field: name
       direction: asc

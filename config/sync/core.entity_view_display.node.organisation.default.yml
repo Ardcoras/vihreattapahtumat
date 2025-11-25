@@ -1,0 +1,29 @@
+uuid: b9307806-f062-4d73-bb89-f54792261783
+langcode: fi
+status: true
+dependencies:
+  config:
+    - field.field.node.organisation.field_official_id
+    - node.type.organisation
+  module:
+    - user
+id: node.organisation.default
+targetEntityType: node
+bundle: organisation
+mode: default
+content:
+  field_official_id:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true

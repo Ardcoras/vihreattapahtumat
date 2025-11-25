@@ -1,0 +1,9 @@
+uuid: fd59f16c-8449-4c07-9b31-f2630cc3a7a7
+langcode: fi
+status: true
+dependencies: {  }
+name: Kunta
+vid: municipality
+description: null
+weight: 0
+new_revision: false

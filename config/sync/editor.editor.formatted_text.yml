@@ -12,8 +12,14 @@ settings:
   toolbar:
     items:
       - heading
+      - '|'
       - bold
       - italic
+      - '|'
+      - link
+      - '|'
+      - bulletedList
+      - numberedList
   plugins:
     ckeditor5_heading:
       enabled_headings:
@@ -22,5 +28,10 @@ settings:
         - heading4
         - heading5
         - heading6
+    ckeditor5_list:
+      properties:
+        reversed: true
+        startIndex: true
+      multiBlock: true
 image_upload:
   status: false

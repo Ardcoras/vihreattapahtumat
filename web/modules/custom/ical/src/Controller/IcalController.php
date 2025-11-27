@@ -50,6 +50,11 @@ class IcalController implements ContainerInjectionInterface {
       $query->condition('field_place.entity:taxonomy_term.field_municipality.entity:taxonomy_term.field_official_id', $city);
     }
 
+    $region = $request->query->get('region');
+    if (!empty($region)) {
+      $query->condition('field_place.entity:taxonomy_term.field_municipality.entity:taxonomy_term.field_regions', $region);
+    }
+
     $res = $query->execute();
 
     $nodes = $storage->loadMultiple($res);

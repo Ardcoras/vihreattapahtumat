@@ -1,16 +1,15 @@
-uuid: 50a38e75-24c2-4777-b6fc-90036188f854
+uuid: ae53cab0-febc-4c3e-9214-3471ee1826ad
 langcode: fi
 status: true
 dependencies:
   config:
-    - field.field.taxonomy_term.municipality.field_official_id
-    - field.field.taxonomy_term.municipality.field_regions
-    - taxonomy.vocabulary.municipality
+    - field.field.taxonomy_term.region.field_official_id
+    - taxonomy.vocabulary.region
   module:
     - text
-id: taxonomy_term.municipality.default
+id: taxonomy_term.region.default
 targetEntityType: taxonomy_term
-bundle: municipality
+bundle: region
 mode: default
 content:
   description:
@@ -27,14 +26,6 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 1
-    region: content
-  field_regions:
-    type: entity_reference_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 2
     region: content
 hidden:
   langcode: true

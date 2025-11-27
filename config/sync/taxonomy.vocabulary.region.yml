@@ -1,0 +1,9 @@
+uuid: 480ec284-0bbb-4a9f-bcff-82bdd9cbf0a4
+langcode: fi
+status: true
+dependencies: {  }
+name: Maakunta
+vid: region
+description: null
+weight: 0
+new_revision: false

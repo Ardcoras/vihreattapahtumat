@@ -1,0 +1,19 @@
+uuid: 06296f99-8bfa-4f00-a0fa-13578be4610f
+langcode: fi
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_official_id
+    - taxonomy.vocabulary.region
+id: taxonomy_term.region.field_official_id
+field_name: field_official_id
+entity_type: taxonomy_term
+bundle: region
+label: Kuntanumero
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

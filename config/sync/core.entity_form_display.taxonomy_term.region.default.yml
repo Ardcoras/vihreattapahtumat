@@ -1,22 +1,21 @@
-uuid: 716cbfb6-9646-415d-a52f-0eeb08fbb70d
+uuid: c769f2b8-8dc8-4ee3-9f6a-2095b1eb3cfc
 langcode: fi
 status: true
 dependencies:
   config:
-    - field.field.taxonomy_term.municipality.field_official_id
-    - field.field.taxonomy_term.municipality.field_regions
-    - taxonomy.vocabulary.municipality
+    - field.field.taxonomy_term.region.field_official_id
+    - taxonomy.vocabulary.region
   module:
     - path
     - text
-id: taxonomy_term.municipality.default
+id: taxonomy_term.region.default
 targetEntityType: taxonomy_term
-bundle: municipality
+bundle: region
 mode: default
 content:
   description:
     type: text_textarea
-    weight: 3
+    weight: 2
     region: content
     settings:
       rows: 5
@@ -30,19 +29,9 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_regions:
-    type: entity_reference_autocomplete
-    weight: 2
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
   langcode:
     type: language_select
-    weight: 4
+    weight: 3
     region: content
     settings:
       include_locked: true
@@ -57,13 +46,13 @@ content:
     third_party_settings: {  }
   path:
     type: path
-    weight: 5
+    weight: 4
     region: content
     settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 6
+    weight: 5
     region: content
     settings:
       display_label: true

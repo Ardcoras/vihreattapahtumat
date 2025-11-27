@@ -1,0 +1,29 @@
+uuid: 8a4f50b4-df29-4acc-9a67-853c82c39b51
+langcode: fi
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_regions
+    - taxonomy.vocabulary.municipality
+    - taxonomy.vocabulary.region
+id: taxonomy_term.municipality.field_regions
+field_name: field_regions
+entity_type: taxonomy_term
+bundle: municipality
+label: Alueet
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      region: region
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

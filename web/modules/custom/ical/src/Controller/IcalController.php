@@ -52,7 +52,7 @@ class IcalController implements ContainerInjectionInterface {
 
     $region = $request->query->get('region');
     if (!empty($region)) {
-      $query->condition('field_place.entity:taxonomy_term.field_municipality.entity:taxonomy_term.field_regions.entity:taxonomy.field_official_id', $region);
+      $query->condition('field_place.entity:taxonomy_term.field_municipality.entity:taxonomy_term.field_regions.entity:taxonomy_term.field_official_id', $region);
     }
 
     $res = $query->execute();

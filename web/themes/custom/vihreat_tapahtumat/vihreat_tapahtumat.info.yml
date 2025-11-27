@@ -1,0 +1,4 @@
+name: Vihreät tapahtumat
+type: theme
+core_version_requirement: '>=11'
+base theme: olivero

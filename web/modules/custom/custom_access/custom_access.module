@@ -1,0 +1,19 @@
+<?php
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Access\AccessResultInterface;
+
+function custom_access_entity_access(EntityInterface $entity, $operation, AccountInterface $account): AccessResultInterface {
+  if ($entity->bundle() == 'event') {
+    foreach ($entity->field_event_organiser as $organiser) {
+      foreach ($organiser->entity->field_event_editors as $editor) {
+        if ($editor->entity == $account) {
+          return AccessResult::allowed();
+        }
+      }
+    }
+  }
+  return AccessResult::neutral();
+}

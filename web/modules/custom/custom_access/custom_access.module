@@ -9,7 +9,7 @@ function custom_access_entity_access(EntityInterface $entity, $operation, Accoun
   if ($entity->bundle() == 'event') {
     foreach ($entity->field_event_organiser as $organiser) {
       foreach ($organiser->entity->field_event_editors as $editor) {
-        if ($editor->entity == $account) {
+        if ($editor->entity->id() == $account->id()) {
           return AccessResult::allowed();
         }
       }

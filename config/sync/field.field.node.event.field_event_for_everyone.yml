@@ -1,0 +1,21 @@
+uuid: 80204bb3-ad77-484f-a8af-a9a930c1f6dc
+langcode: fi
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_event_for_everyone
+    - node.type.event
+id: node.event.field_event_for_everyone
+field_name: field_event_for_everyone
+entity_type: node
+bundle: event
+label: 'Koko maan vihreille'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: Käytössä
+  off_label: 'Pois päältä'
+field_type: boolean

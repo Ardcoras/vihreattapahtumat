@@ -1,0 +1,22 @@
+uuid: 622f6d31-fa49-409d-bea0-5900571a71a4
+langcode: fi
+status: true
+dependencies:
+  theme:
+    - vihreat_tapahtumat
+_core:
+  default_config_hash: ydSxdq7R66I8UMC460rOzlfzvlUL4VRbdwc6z9DWaUI
+id: vihreat_tapahtumat_secondary_local_tasks
+theme: vihreat_tapahtumat
+region: highlighted
+weight: -2
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: 'Toissijaiset välilehdet'
+  label_display: '0'
+  provider: core
+  primary: false
+  secondary: true
+visibility: {  }

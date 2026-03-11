@@ -1,0 +1,5 @@
+services:
+  vihreattapahtumat_geocoder.commands:
+    class: Drupal\vihreattapahtumat_geocoder\Commands\GeocoderCommands
+    tags:
+      - { name: drush.command }

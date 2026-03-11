@@ -1,0 +1,8 @@
+name: Vihreät Tapahtumat Geocoder
+type: module
+description: 'Geocodes place taxonomy terms by combining street address, municipality, and country.'
+core_version_requirement: ^10 || ^11
+package: Custom
+dependencies:
+  - drupal:taxonomy
+  - drupal:geofield

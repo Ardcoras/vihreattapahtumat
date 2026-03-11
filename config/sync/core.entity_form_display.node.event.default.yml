@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.node.event.field_description
     - field.field.node.event.field_event_datetime
+    - field.field.node.event.field_event_for_everyone
     - field.field.node.event.field_event_organiser
     - field.field.node.event.field_event_remote
     - field.field.node.event.field_event_type
@@ -12,6 +13,7 @@ dependencies:
     - node.type.event
   module:
     - datetime_range
+    - inline_entity_form
     - path
     - text
 id: node.event.default
@@ -39,6 +41,13 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_event_for_everyone:
+    type: boolean_checkbox
+    weight: 51
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
   field_event_organiser:
     type: entity_reference_autocomplete
     weight: 5
@@ -63,14 +72,22 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_place:
-    type: entity_reference_autocomplete
+    type: inline_entity_form_complex
     weight: 6
     region: content
     settings:
+      form_mode: default
+      override_labels: false
+      label_singular: ''
+      label_plural: ''
+      allow_new: true
+      allow_existing: true
       match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
+      allow_duplicate: false
+      collapsible: false
+      collapsed: false
+      revision: false
+      removed_reference: keep
     third_party_settings: {  }
   langcode:
     type: language_select
@@ -123,5 +140,10 @@ content:
       match_limit: 10
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  url_redirects:
+    weight: 50
+    region: content
+    settings: {  }
     third_party_settings: {  }
 hidden: {  }

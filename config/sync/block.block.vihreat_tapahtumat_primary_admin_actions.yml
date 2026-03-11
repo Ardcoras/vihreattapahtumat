@@ -1,0 +1,20 @@
+uuid: ad60d6a5-9ad9-483e-bdb3-e1e36b844a20
+langcode: fi
+status: true
+dependencies:
+  theme:
+    - vihreat_tapahtumat
+_core:
+  default_config_hash: Q9_2whdOj1YIomfvsIfopROW4FT_X5pY0DjdOiOaQ5U
+id: vihreat_tapahtumat_primary_admin_actions
+theme: vihreat_tapahtumat
+region: highlighted
+weight: -5
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Ensisijaiset ylläpidon toimenpiteet'
+  label_display: '0'
+  provider: core
+visibility: {  }

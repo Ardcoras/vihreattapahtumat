@@ -3,6 +3,7 @@ langcode: fi
 status: true
 dependencies:
   config:
+    - field.field.node.organisation.field_event_editors
     - field.field.node.organisation.field_official_id
     - node.type.organisation
   module:
@@ -18,12 +19,13 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 101
+    weight: 1
     region: content
   links:
     settings: {  }
     third_party_settings: {  }
-    weight: 100
+    weight: 0
     region: content
 hidden:
+  field_event_editors: true
   langcode: true

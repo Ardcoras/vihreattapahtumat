@@ -1,0 +1,22 @@
+uuid: e1a618db-9f3c-4116-b61f-91af0188e778
+langcode: fi
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - vihreat_tapahtumat
+_core:
+  default_config_hash: erQSEZF2XUjNmgTl0uNRBzmg18ZGXwUcw2FhApoeuHk
+id: vihreat_tapahtumat_content
+theme: vihreat_tapahtumat
+region: content
+weight: 0
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Pääsivun sisältö'
+  label_display: '0'
+  provider: system
+visibility: {  }

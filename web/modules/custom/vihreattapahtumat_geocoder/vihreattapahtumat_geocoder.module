@@ -1,0 +1,99 @@
+<?php
+
+/**
+ * @file
+ * Geocodes place taxonomy terms using combined address fields.
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\taxonomy\TermInterface;
+
+/**
+ * Implements hook_entity_presave().
+ *
+ * Combines field_street_address and field_municipality into a full address
+ * string, geocodes it via Nominatim, and stores the result in
+ * field_location (a Geofield).
+ */
+function vihreattapahtumat_geocoder_entity_presave(EntityInterface $entity) {
+  // Only act on place taxonomy terms.
+  if (!($entity instanceof TermInterface) || $entity->bundle() !== 'place') {
+    return;
+  }
+
+  \Drupal::logger('vihreattapahtumat_geocoder')->debug('Presave hook fired for place term "@name"', ['@name' => $entity->getName()]);
+
+  // Ensure the required fields exist.
+  $missing = [];
+  foreach (['field_street_address', 'field_municipality', 'field_location'] as $field) {
+    if (!$entity->hasField($field)) {
+      $missing[] = $field;
+    }
+  }
+  if (!empty($missing)) {
+    \Drupal::logger('vihreattapahtumat_geocoder')->warning('Missing fields on place term: @fields', ['@fields' => implode(', ', $missing)]);
+    return;
+  }
+
+  $street = $entity->get('field_street_address')->value;
+  $municipality_term = $entity->get('field_municipality')->entity;
+
+  // Build the full address string.
+  $parts = [];
+  if (!empty($street)) {
+    $parts[] = $street;
+  }
+  if ($municipality_term) {
+    $parts[] = $municipality_term->getName();
+  }
+  // Always append Finland to avoid ambiguity.
+  $parts[] = 'Finland';
+
+  $address = implode(', ', $parts);
+
+  // Skip geocoding if the address hasn't changed since last save.
+  if (!$entity->isNew() && isset($entity->original)) {
+    $original = $entity->original;
+    $original_street = $original->get('field_street_address')->value;
+    $original_municipality = $original->get('field_municipality')->entity;
+    $original_parts = [];
+    if (!empty($original_street)) {
+      $original_parts[] = $original_street;
+    }
+    if ($original_municipality) {
+      $original_parts[] = $original_municipality->getName();
+    }
+    $original_parts[] = 'Finland';
+    $original_address = implode(', ', $original_parts);
+
+    if ($address === $original_address && !$entity->get('field_location')->isEmpty()) {
+      \Drupal::logger('vihreattapahtumat_geocoder')->debug('Address unchanged for "@name", skipping geocoding.', ['@name' => $entity->getName()]);
+      return;
+    }
+  }
+
+  // Call Nominatim directly via the Geocoder PHP library.
+  $http_client = \Drupal::httpClient();
+  $adapter = new \Http\Adapter\Guzzle7\Client($http_client);
+  $provider = \Geocoder\Provider\Nominatim\Nominatim::withOpenStreetMapServer($adapter, 'Drupal/vihreattapahtumat');
+  $geocoder = new \Geocoder\StatefulGeocoder($provider);
+
+  try {
+    $result = $geocoder->geocodeQuery(\Geocoder\Query\GeocodeQuery::create($address));
+
+    if ($result->count() > 0) {
+      $first = $result->first();
+      $coordinates = $first->getCoordinates();
+      $lat = $coordinates->getLatitude();
+      $lon = $coordinates->getLongitude();
+      $entity->set('field_location', ['value' => "POINT($lon $lat)"]);
+      \Drupal::logger('vihreattapahtumat_geocoder')->info('Geocoded "@address" to @lat, @lon', ['@address' => $address, '@lat' => $lat, '@lon' => $lon]);
+    }
+    else {
+      \Drupal::logger('vihreattapahtumat_geocoder')->warning('No geocoding result for "@address"', ['@address' => $address]);
+    }
+  }
+  catch (\Exception $e) {
+    \Drupal::logger('vihreattapahtumat_geocoder')->error('Geocoding failed for "@address": @message', ['@address' => $address, '@message' => $e->getMessage()]);
+  }
+}

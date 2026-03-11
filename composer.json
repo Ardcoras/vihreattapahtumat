@@ -21,13 +21,17 @@
         "drupal/core-recipe-unpack": "^11.2",
         "drupal/core-recommended": "^11.2",
         "drupal/fullcalendar_view": "^5.2",
+        "drupal/geofield": "^10.3",
         "drupal/gin": "^5.0",
         "drupal/inline_entity_form": "@rc",
+        "drupal/leaflet": "^10.4",
         "drupal/optional_end_date": "^1.4",
         "drupal/pathauto": "^1.14",
         "drupal/redirect": "^1.12",
         "drush/drush": "^13.6",
-        "eluceo/ical": "^2"
+        "eluceo/ical": "^2",
+        "geocoder-php/nominatim-provider": "^5.8",
+        "php-http/guzzle7-adapter": "^1.1"
     },
     "conflict": {
         "drupal/drupal": "*"

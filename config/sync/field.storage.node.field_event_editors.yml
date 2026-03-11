@@ -1,0 +1,20 @@
+uuid: 190b2f2d-f5cb-4155-9fb5-9e72efa8f20e
+langcode: fi
+status: true
+dependencies:
+  module:
+    - node
+    - user
+id: node.field_event_editors
+field_name: field_event_editors
+entity_type: node
+type: entity_reference
+settings:
+  target_type: user
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

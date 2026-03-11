@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.node.event.field_description
     - field.field.node.event.field_event_datetime
+    - field.field.node.event.field_event_for_everyone
     - field.field.node.event.field_event_organiser
     - field.field.node.event.field_event_remote
     - field.field.node.event.field_event_type
@@ -12,8 +13,119 @@ dependencies:
     - node.type.event
   module:
     - datetime_range
+    - layout_builder
+    - layout_discovery
     - text
     - user
+third_party_settings:
+  layout_builder:
+    enabled: true
+    allow_custom: false
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: ''
+        components:
+          3fceecc8-4ffe-414b-bfc1-c3ed1f12ca57:
+            uuid: 3fceecc8-4ffe-414b-bfc1-c3ed1f12ca57
+            region: content
+            configuration:
+              id: 'extra_field_block:node:event:links'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+            weight: 0
+            additional: {  }
+          da2518e2-41ab-445a-8bce-57020561befe:
+            uuid: da2518e2-41ab-445a-8bce-57020561befe
+            region: content
+            configuration:
+              id: 'field_block:node:event:field_event_datetime'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: daterange_default
+                label: above
+                settings:
+                  timezone_override: ''
+                  format_type: medium
+                  from_to: both
+                  separator: '-'
+                third_party_settings: {  }
+            weight: 1
+            additional: {  }
+          02b72a74-da96-4482-bda1-99505a365f39:
+            uuid: 02b72a74-da96-4482-bda1-99505a365f39
+            region: content
+            configuration:
+              id: 'field_block:node:event:field_description'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 2
+            additional: {  }
+          af6969ac-4a23-4fdc-addc-0375e905662e:
+            uuid: af6969ac-4a23-4fdc-addc-0375e905662e
+            region: content
+            configuration:
+              id: 'field_block:node:event:field_event_organiser'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 3
+            additional: {  }
+          e30ed8f8-9f63-44e5-b262-029da1dfcf64:
+            uuid: e30ed8f8-9f63-44e5-b262-029da1dfcf64
+            region: content
+            configuration:
+              id: 'field_block:node:event:field_event_type'
+              label: Tyyppi
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: false
+                third_party_settings: {  }
+            weight: 4
+            additional: {  }
+          17fbf6cf-bf81-455e-a8aa-55e26febf185:
+            uuid: 17fbf6cf-bf81-455e-a8aa-55e26febf185
+            region: content
+            configuration:
+              id: 'field_block:node:event:field_place'
+              label: Sijainti
+              label_display: visible
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: entity_reference_entity_view
+                label: hidden
+                settings:
+                  view_mode: embed
+                third_party_settings: {  }
+            weight: 5
+            additional: {  }
+        third_party_settings: {  }
 id: node.event.default
 targetEntityType: node
 bundle: event
@@ -36,6 +148,16 @@ content:
       separator: '-'
     third_party_settings: {  }
     weight: 101
+    region: content
+  field_event_for_everyone:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 107
     region: content
   field_event_organiser:
     type: entity_reference_label

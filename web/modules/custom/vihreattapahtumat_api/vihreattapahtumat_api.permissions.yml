@@ -1,0 +1,3 @@
+'create events via api':
+  title: 'Create events via API'
+  description: 'Allows creating event nodes via the REST API.'

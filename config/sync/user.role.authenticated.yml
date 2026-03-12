@@ -9,10 +9,12 @@ dependencies:
     - taxonomy.vocabulary.place
   module:
     - filter
+    - key_auth
     - media
     - node
     - system
     - taxonomy
+    - vihreattapahtumat_api
 _core:
   default_config_hash: dJ0L2DNSj5q6XVZAGsuVDpJTh5UeYkIPwKrUOOpr8YI
 id: authenticated
@@ -22,10 +24,12 @@ is_admin: false
 permissions:
   - 'access content'
   - 'create event content'
+  - 'create events via api'
   - 'create organisation content'
   - 'create terms in place'
   - 'delete own event content'
   - 'edit own event content'
   - 'edit own organisation content'
+  - 'use key authentication'
   - 'use text format formatted_text'
   - 'view media'

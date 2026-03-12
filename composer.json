@@ -24,6 +24,7 @@
         "drupal/geofield": "^10.3",
         "drupal/gin": "^5.0",
         "drupal/inline_entity_form": "@rc",
+        "drupal/key_auth": "^2.2",
         "drupal/leaflet": "^10.4",
         "drupal/optional_end_date": "^1.4",
         "drupal/pathauto": "^1.14",

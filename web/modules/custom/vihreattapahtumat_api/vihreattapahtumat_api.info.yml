@@ -1,0 +1,9 @@
+name: Vihreät Tapahtumat API
+type: module
+description: 'REST API for creating events.'
+core_version_requirement: ^10 || ^11
+package: Custom
+dependencies:
+  - drupal:node
+  - drupal:taxonomy
+  - drupal:key_auth

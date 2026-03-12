@@ -1,0 +1,10 @@
+vihreattapahtumat_api.create_events:
+  path: '/api/v1/events'
+  defaults:
+    _controller: '\Drupal\vihreattapahtumat_api\Controller\EventApiController::createEvents'
+  methods: [POST]
+  requirements:
+    _permission: 'create events via api'
+  options:
+    _auth: ['key_auth']
+    no_cache: TRUE

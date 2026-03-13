@@ -8,3 +8,44 @@ vihreattapahtumat_api.create_events:
   options:
     _auth: ['key_auth']
     no_cache: TRUE
+
+vihreattapahtumat_api.search_organisers:
+  path: '/api/v1/organisers/search'
+  defaults:
+    _controller: '\Drupal\vihreattapahtumat_api\Controller\EventApiController::searchOrganisers'
+  methods: [GET]
+  requirements:
+    _permission: 'create events via api'
+  options:
+    _auth: ['key_auth']
+    no_cache: TRUE
+
+vihreattapahtumat_api.search_places:
+  path: '/api/v1/places/search'
+  defaults:
+    _controller: '\Drupal\vihreattapahtumat_api\Controller\EventApiController::searchPlaces'
+  methods: [GET]
+  requirements:
+    _permission: 'create events via api'
+  options:
+    _auth: ['key_auth']
+    no_cache: TRUE
+
+vihreattapahtumat_api.create_place:
+  path: '/api/v1/places'
+  defaults:
+    _controller: '\Drupal\vihreattapahtumat_api\Controller\EventApiController::createPlace'
+  methods: [POST]
+  requirements:
+    _permission: 'create events via api'
+  options:
+    _auth: ['key_auth']
+    no_cache: TRUE
+
+vihreattapahtumat_api.documentation:
+  path: '/api/v1/docs'
+  defaults:
+    _controller: '\Drupal\vihreattapahtumat_api\Controller\EventApiController::documentation'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'

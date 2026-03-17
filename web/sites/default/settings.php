@@ -376,7 +376,7 @@ $settings['update_free_access'] = FALSE;
  * Be aware, however, that it is likely that this would allow IP
  * address spoofing unless more advanced precautions are taken.
  */
-# $settings['reverse_proxy'] = TRUE;
+ $settings['reverse_proxy'] = TRUE;
 
 /**
  * Reverse proxy addresses.
@@ -385,7 +385,7 @@ $settings['update_free_access'] = FALSE;
  * IPv4/IPv6 addresses or subnets in CIDR notation. This setting is required if
  * $settings['reverse_proxy'] is TRUE.
  */
-# $settings['reverse_proxy_addresses'] = ['a.b.c.d', 'e.f.g.h/24', ...];
+$settings['reverse_proxy_addresses'] = [$_SERVER['REMOTE_ADDR']];
 
 /**
  * Reverse proxy trusted headers.

@@ -871,6 +871,7 @@ $settings['trusted_host_patterns'] = [
   'tapahtumat.vihreaturku.fi',
   'localhost',
   'vihreattapahtumat.docker.so',
+  'vihreattapahtumat-epaccmadgcbgfpaz.swedencentral-01.azurewebsites.net',
 ];
 
 if (isset($_ENV['HASH_SALT'])) {

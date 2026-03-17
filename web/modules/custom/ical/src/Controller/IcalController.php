@@ -47,12 +47,18 @@ class IcalController implements ContainerInjectionInterface {
 
     $city = $request->query->get('city');
     if (!empty($city)) {
-      $query->condition('field_place.entity:taxonomy_term.field_municipality.entity:taxonomy_term.field_official_id', $city);
+      $cityGroup = $query->orConditionGroup()
+        ->condition('field_place.entity:taxonomy_term.field_official_id', $city)
+        ->condition('field_place.entity:taxonomy_term.field_municipality.entity:taxonomy_term.field_official_id', $city);
+      $query->condition($cityGroup);
     }
 
     $region = $request->query->get('region');
     if (!empty($region)) {
-      $query->condition('field_place.entity:taxonomy_term.field_municipality.entity:taxonomy_term.field_regions.entity:taxonomy_term.field_official_id', $region);
+      $regionGroup = $query->orConditionGroup()
+        ->condition('field_place.entity:taxonomy_term.field_regions.entity:taxonomy_term.field_official_id', $region)
+        ->condition('field_place.entity:taxonomy_term.field_municipality.entity:taxonomy_term.field_regions.entity:taxonomy_term.field_official_id', $region);
+      $query->condition($regionGroup);
     }
 
     $res = $query->execute();
@@ -67,11 +73,16 @@ class IcalController implements ContainerInjectionInterface {
       $event->setDescription(strip_tags((string) $node->field_description->getValue()[0]['value']));
 
       $location = $node->field_place->entity;
-      $location_parts = [
-        $location->getName(),
-        (string) $location->field_street_address->getString(),
-        $location->field_municipality->entity->getName(),
-      ];
+      $location_parts = [];
+      if ($location) {
+        $location_parts[] = $location->getName();
+        if ($location->hasField('field_street_address') && !$location->field_street_address->isEmpty()) {
+          $location_parts[] = (string) $location->field_street_address->getString();
+        }
+        if ($location->hasField('field_municipality') && !$location->field_municipality->isEmpty() && $location->field_municipality->entity) {
+          $location_parts[] = $location->field_municipality->entity->getName();
+        }
+      }
       $event->setLocation(new \Eluceo\iCal\Domain\ValueObject\Location(implode(', ', $location_parts)));
       $event->setUrl(new \Eluceo\iCal\Domain\ValueObject\Uri($node->toUrl('canonical', ['absolute' => TRUE])->toString()));
       $event->setOccurrence(

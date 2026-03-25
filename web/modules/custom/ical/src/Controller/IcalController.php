@@ -49,7 +49,7 @@ class IcalController implements ContainerInjectionInterface {
 
     $city = $request->query->get('city');
     if (!empty($city)) {
-      $cityGroup = $request_conditions->orConditionGroup()
+      $cityGroup = $query->orConditionGroup()
         ->condition('field_place.entity:taxonomy_term.field_official_id', $city)
         ->condition('field_place.entity:taxonomy_term.field_municipality.entity:taxonomy_term.field_official_id', $city);
       $request_conditions->condition($cityGroup);
@@ -57,7 +57,7 @@ class IcalController implements ContainerInjectionInterface {
 
     $region = $request->query->get('region');
     if (!empty($region)) {
-      $regionGroup = $request_conditions->orConditionGroup()
+      $regionGroup = $query->orConditionGroup()
         ->condition('field_place.entity:taxonomy_term.field_regions.entity:taxonomy_term.field_official_id', $region)
         ->condition('field_place.entity:taxonomy_term.field_municipality.entity:taxonomy_term.field_regions.entity:taxonomy_term.field_official_id', $region);
       $request_conditions->condition($regionGroup);

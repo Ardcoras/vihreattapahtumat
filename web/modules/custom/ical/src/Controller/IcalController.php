@@ -44,7 +44,7 @@ class IcalController implements ContainerInjectionInterface {
 
     $organisers = (int) $request->query->get('organiser');
     if (!empty($organisers)) {
-      $request_conditions->condition('field_event_organiser:node:field_official_id', $organisers);
+      $request_conditions->condition('field_event_organiser.entity:node.field_official_id', $organisers);
     }
 
     $city = $request->query->get('city');

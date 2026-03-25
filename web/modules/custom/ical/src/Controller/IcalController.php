@@ -40,26 +40,29 @@ class IcalController implements ContainerInjectionInterface {
       ->condition('type', 'event')
       ->accessCheck(FALSE);
 
+    $request_conditions = $query->orConditionGroup();
+
     $organisers = (int) $request->query->get('organiser');
     if (!empty($organisers)) {
-      $query->condition('field_event_organiser', $organisers);
+      $request_conditions->condition('field_event_organiser:node:field_official_id', $organisers);
     }
 
     $city = $request->query->get('city');
     if (!empty($city)) {
-      $cityGroup = $query->orConditionGroup()
+      $cityGroup = $request_conditions->orConditionGroup()
         ->condition('field_place.entity:taxonomy_term.field_official_id', $city)
         ->condition('field_place.entity:taxonomy_term.field_municipality.entity:taxonomy_term.field_official_id', $city);
-      $query->condition($cityGroup);
+      $request_conditions->condition($cityGroup);
     }
 
     $region = $request->query->get('region');
     if (!empty($region)) {
-      $regionGroup = $query->orConditionGroup()
+      $regionGroup = $request_conditions->orConditionGroup()
         ->condition('field_place.entity:taxonomy_term.field_regions.entity:taxonomy_term.field_official_id', $region)
         ->condition('field_place.entity:taxonomy_term.field_municipality.entity:taxonomy_term.field_regions.entity:taxonomy_term.field_official_id', $region);
-      $query->condition($regionGroup);
+      $request_conditions->condition($regionGroup);
     }
+    $query->condition($request_conditions);
 
     $res = $query->execute();
 

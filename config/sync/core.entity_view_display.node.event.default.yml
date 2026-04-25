@@ -35,7 +35,7 @@ third_party_settings:
               label_display: '0'
               context_mapping:
                 entity: layout_builder.entity
-            weight: 0
+            weight: 2
             additional: {  }
           da2518e2-41ab-445a-8bce-57020561befe:
             uuid: da2518e2-41ab-445a-8bce-57020561befe
@@ -54,22 +54,25 @@ third_party_settings:
                   from_to: both
                   separator: '-'
                 third_party_settings: {  }
-            weight: 1
+            weight: 3
             additional: {  }
           02b72a74-da96-4482-bda1-99505a365f39:
             uuid: 02b72a74-da96-4482-bda1-99505a365f39
             region: content
             configuration:
               id: 'field_block:node:event:field_description'
+              label: Kuvaus
               label_display: '0'
+              provider: layout_builder
               context_mapping:
                 entity: layout_builder.entity
+                view_mode: view_mode
               formatter:
                 type: text_default
-                label: above
+                label: hidden
                 settings: {  }
                 third_party_settings: {  }
-            weight: 2
+            weight: 4
             additional: {  }
           af6969ac-4a23-4fdc-addc-0375e905662e:
             uuid: af6969ac-4a23-4fdc-addc-0375e905662e
@@ -85,7 +88,7 @@ third_party_settings:
                 settings:
                   link: true
                 third_party_settings: {  }
-            weight: 3
+            weight: 5
             additional: {  }
           e30ed8f8-9f63-44e5-b262-029da1dfcf64:
             uuid: e30ed8f8-9f63-44e5-b262-029da1dfcf64
@@ -104,7 +107,7 @@ third_party_settings:
                 settings:
                   link: false
                 third_party_settings: {  }
-            weight: 4
+            weight: 6
             additional: {  }
           17fbf6cf-bf81-455e-a8aa-55e26febf185:
             uuid: 17fbf6cf-bf81-455e-a8aa-55e26febf185
@@ -123,7 +126,7 @@ third_party_settings:
                 settings:
                   view_mode: embed
                 third_party_settings: {  }
-            weight: 5
+            weight: 7
             additional: {  }
         third_party_settings: {  }
 id: node.event.default

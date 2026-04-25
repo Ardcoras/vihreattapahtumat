@@ -12,7 +12,7 @@ dependencies:
 id: vihreat_tapahtumat_views_block__embed_url_block_1
 theme: vihreat_tapahtumat
 region: content
-weight: 0
+weight: -3
 provider: null
 plugin: 'views_block:embed_url-block_1'
 settings:

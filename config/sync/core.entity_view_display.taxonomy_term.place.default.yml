@@ -29,7 +29,7 @@ content:
     region: content
   field_location:
     type: leaflet_formatter_default
-    label: above
+    label: hidden
     settings:
       multiple_map: false
       leaflet_map: 'OSM Mapnik'
@@ -127,7 +127,7 @@ content:
     region: content
   field_municipality:
     type: entity_reference_label
-    label: above
+    label: hidden
     settings:
       link: true
     third_party_settings: {  }

@@ -1,0 +1,56 @@
+<header class="site-header" role="banner">
+  <div class="site-header__inner">
+    <div class="site-header__branding">
+      {{ page.header }}
+      <div class="site-header__subbrand" aria-hidden="true">
+        <span class="site-header__slash">/</span>
+        <span class="site-header__label">Tapahtumakalenteri</span>
+      </div>
+    </div>
+
+    <nav class="site-header__nav" aria-label="{{ 'Site navigation'|t }}">
+      <button class="site-header__nav-toggle" aria-expanded="false" aria-controls="site-nav-links" aria-label="{{ 'Toggle navigation'|t }}">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="site-header__nav-links" id="site-nav-links">
+        {{ page.primary_menu }}
+        {% if page.primary_menu and page.secondary_menu %}
+          <div class="site-header__nav-separator" aria-hidden="true"></div>
+        {% endif %}
+        <div class="site-header__account-link">
+          {{ page.secondary_menu }}
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main role="main">
+  <a id="main-content" tabindex="-1"></a>
+
+  {% if page.highlighted %}
+    <div class="region-highlighted">
+      {{ page.highlighted }}
+    </div>
+  {% endif %}
+
+  <div class="layout-container">
+    {% if page.breadcrumb %}
+      <div class="breadcrumb">
+        {{ page.breadcrumb }}
+      </div>
+    {% endif %}
+
+    {{ page.content }}
+  </div>
+</main>
+
+{% if page.footer %}
+  <footer class="site-footer" role="contentinfo">
+    <div class="layout-container">
+      {{ page.footer }}
+    </div>
+  </footer>
+{% endif %}

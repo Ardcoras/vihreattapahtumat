@@ -1,4 +1,29 @@
-global-styling:
+fonts:
   css:
     theme:
-      css/style.css: {}
+      https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600;700&display=swap: { type: external, minified: true }
+
+global:
+  dependencies:
+    - core/normalize
+  css:
+    theme:
+      css/variables.css: {}
+      css/base.css: {}
+      css/layout.css: {}
+      css/header.css: {}
+      css/components/tabs.css: {}
+      css/components/breadcrumb.css: {}
+      css/components/messages.css: {}
+  js:
+    js/nav.js: {}
+
+event-detail:
+  css:
+    theme:
+      css/event-detail.css: {}
+
+calendar-view:
+  css:
+    theme:
+      css/calendar-view.css: {}

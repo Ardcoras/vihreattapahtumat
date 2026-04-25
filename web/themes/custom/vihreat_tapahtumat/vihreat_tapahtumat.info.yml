@@ -1,6 +1,17 @@
 name: Vihreät tapahtumat
 type: theme
 core_version_requirement: '>=11'
-base theme: olivero
+base theme: false
+logo: logo.png
 libraries:
-  - vihreat_tapahtumat/global-styling
+  - vihreat_tapahtumat/fonts
+  - vihreat_tapahtumat/global
+regions:
+  header:         Header
+  primary_menu:   Primary navigation
+  secondary_menu: Secondary navigation
+  highlighted:    Highlighted
+  breadcrumb:     Breadcrumb
+  content:        Content
+  sidebar_first:  Sidebar
+  footer:         Footer

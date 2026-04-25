@@ -1,0 +1,23 @@
+:root {
+  --green:        #006845;
+  --green-dark:   #004F33;
+  --green-bg:     #284734;
+  --green-kirkas: #009639;
+  --green-light:  #D9EA9A;
+  --green-mid:    #b8d870;
+  --ink:          #000000;
+  --ink-mid:      #284734;
+  --ink-light:    #6B7B6A;
+  --bg:           #EBEBEC;
+  --white:        #FFFFFF;
+  --border:       #CDD4C0;
+  --radius:       6px;
+
+  --online-bg:    #EBF3FF;
+  --online-text:  #1A4080;
+  --online-border:#4080D0;
+  --online-strip: #2A5FB8;
+
+  --bp-md: 768px;
+  --bp-lg: 1024px;
+}

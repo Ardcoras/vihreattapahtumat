@@ -1,0 +1,315 @@
+/* Hide Drupal's page title block on event pages — the node template renders its own h1 */
+.page-node-type-event .block-page-title-block {
+  display: none;
+}
+
+/* ── TWO-COLUMN LAYOUT ──────────────────────────────────── */
+
+.event-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+@media (min-width: 768px) {
+  .event-layout {
+    grid-template-columns: 1fr 340px;
+    gap: 40px;
+  }
+}
+
+/* ── LEFT COLUMN ────────────────────────────────────────── */
+
+.event-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  margin-bottom: 24px;
+}
+
+@media (min-width: 768px) {
+  .event-title {
+    font-size: 32px;
+  }
+}
+
+.event-date-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--green-light);
+  border-left: 4px solid var(--green);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 12px 20px;
+  margin-bottom: 32px;
+}
+
+.event-date-bar__icon {
+  color: var(--green);
+  flex-shrink: 0;
+}
+
+.event-date-bar__label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--ink-light);
+  margin-bottom: 2px;
+}
+
+.event-date-bar__value {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.event-body {
+  color: #1a1a1a;
+}
+
+.event-body p {
+  font-size: 16px;
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.event-body p:last-child {
+  margin-bottom: 0;
+}
+
+/* ── SIDEBAR ────────────────────────────────────────────── */
+
+.event-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .event-sidebar {
+    position: sticky;
+    top: 80px;
+  }
+}
+
+/* Action buttons */
+.event-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--green);
+  color: var(--white);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: var(--radius);
+  border: none;
+  text-decoration: none;
+  transition: background 0.15s;
+  width: 100%;
+}
+
+.btn-primary:hover {
+  background: var(--green-dark);
+  color: var(--white);
+  text-decoration: none;
+}
+
+.btn-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--white);
+  color: var(--green);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: var(--radius);
+  border: 1.5px solid var(--border);
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s;
+  width: 100%;
+}
+
+.btn-secondary:hover {
+  background: var(--green-light);
+  border-color: var(--green-mid);
+  color: var(--green);
+  text-decoration: none;
+}
+
+/* Sidebar cards */
+.sidebar-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.sidebar-card__header {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--ink-light);
+  background: var(--bg);
+}
+
+.sidebar-card__body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Meta rows */
+.meta-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.meta-row__icon {
+  color: var(--green);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.meta-row__content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.meta-row__label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--ink-light);
+}
+
+.meta-row__value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.meta-row__value--no {
+  color: var(--ink-light);
+  font-weight: 500;
+}
+
+.meta-row__sub {
+  font-size: 13px;
+  color: var(--ink-light);
+}
+
+.sidebar-divider {
+  height: 1px;
+  background: var(--border);
+}
+
+/* Type badge */
+.type-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: var(--green-light);
+  color: var(--green);
+}
+
+/* Organiser link */
+.organizer-link {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--green);
+  text-decoration: none;
+}
+
+.organizer-link:hover {
+  text-decoration: underline;
+}
+
+/* Location */
+.location-venue {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.location-address {
+  font-size: 13px;
+  color: var(--ink-light);
+  line-height: 1.5;
+}
+
+/* Map container */
+.event-map {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+/* Override Leaflet's inline height; hide redundant place fields */
+.event-map [id^="leaflet-map-"] {
+  height: 200px !important;
+  min-width: 0 !important;
+}
+
+.event-map .field--name-description,
+.event-map .field--name-field-street-address,
+.event-map .field--name-field-municipality,
+.event-map h2 {
+  display: none;
+}
+
+/* Description rendered directly from entity, below the map */
+.place-description {
+  font-size: 13px;
+  color: var(--ink-light);
+  line-height: 1.5;
+}
+
+.place-description p {
+  margin: 0 0 6px;
+}
+
+.place-description p:last-child {
+  margin-bottom: 0;
+}
+
+/* "Avaa kartalla" link */
+.map-external-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--green);
+  text-decoration: none;
+}
+
+.map-external-link:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,43 @@
+{%
+  set classes = [
+    dom_id ? 'js-view-dom-id-' ~ dom_id,
+  ]
+%}
+<div{{ attributes.addClass(classes) }}>
+
+  <div class="calendar-page-header">
+    <h1 class="calendar-page-title">{{ 'Tulevat tapahtumat'|t }}</h1>
+    <a href="{{ path('node.add', {'node_type': 'event'}) }}" class="btn-add-event">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+        <path d="M6.5 1v11M1 6.5h11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      {{ 'Lisää tapahtuma'|t }}
+    </a>
+  </div>
+
+  {% if exposed %}
+    <div class="filter-bar">
+      {{ exposed }}
+    </div>
+  {% endif %}
+
+  {% if rows %}
+    <div class="calendar-wrapper">
+      {{ rows }}
+    </div>
+  {% elseif empty %}
+    <div class="view-empty">{{ empty }}</div>
+  {% endif %}
+
+  {% if upcoming_cards is defined and upcoming_cards %}
+    <section class="upcoming-section">
+      <h2 class="upcoming-section__title">{{ 'Seuraavat tapahtumat'|t }}</h2>
+      <div class="event-cards-grid">
+        {% for card in upcoming_cards %}
+          {{ card }}
+        {% endfor %}
+      </div>
+    </section>
+  {% endif %}
+
+</div>

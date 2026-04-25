@@ -1,0 +1,52 @@
+<div{{ attributes.addClass('event-card-outer') }}>
+  {{ title_prefix }}
+  {{ title_suffix }}
+  <a href="{{ url }}" class="event-card">
+
+    <div class="event-card__date-strip">
+      <div>
+        <div class="event-card__day">{{ card_day }}</div>
+        {% if card_month_weekday %}
+          <div class="event-card__month-weekday">{{ card_month_weekday }}</div>
+        {% endif %}
+      </div>
+      {% if card_time %}
+        <div class="event-card__time">{{ card_time }}</div>
+      {% endif %}
+    </div>
+
+    <div class="event-card__body">
+      {% if node.field_event_type.entity %}
+        <span class="event-card__type">{{ node.field_event_type.entity.label }}</span>
+      {% endif %}
+
+      <div class="event-card__title">{{ node.label }}</div>
+
+      <div class="event-card__meta">
+        {% if not node.field_event_organiser.isEmpty %}
+          <span class="event-card__meta-item">
+            <svg class="event-card__meta-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.3"/>
+              <path d="M1.5 12c0-2.2 2.4-4 5.5-4s5.5 1.8 5.5 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+            </svg>
+            {{ node.field_event_organiser[0].entity.label }}
+          </span>
+        {% endif %}
+
+        {% if node.field_place.entity %}
+          <span class="event-card__meta-item">
+            <svg class="event-card__meta-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M7 1A3.5 3.5 0 0 1 10.5 4.5c0 3.5-3.5 7-3.5 7S3.5 8 3.5 4.5A3.5 3.5 0 0 1 7 1z" stroke="currentColor" stroke-width="1.3"/>
+              <circle cx="7" cy="4.5" r="1.2" stroke="currentColor" stroke-width="1.3"/>
+            </svg>
+            {{ node.field_place.entity.label }}
+            {% if node.field_place.entity.field_municipality.entity %}
+              ({{ node.field_place.entity.field_municipality.entity.label }})
+            {% endif %}
+          </span>
+        {% endif %}
+      </div>
+    </div>
+
+  </a>
+</div>

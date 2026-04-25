@@ -1,0 +1,232 @@
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  height: 64px;
+  display: flex;
+  align-items: center;
+}
+
+.site-header__inner {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 100%;
+}
+
+@media (min-width: 1024px) {
+  .site-header__inner {
+    padding: 0 24px;
+  }
+}
+
+/* Logo + sub-brand */
+.site-header__branding {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.site-logo {
+  height: 36px;
+  width: auto;
+  display: block;
+}
+
+.site-header__subbrand {
+  display: none;
+  align-items: center;
+  margin-left: 12px;
+}
+
+@media (min-width: 768px) {
+  .site-header__subbrand {
+    display: flex;
+  }
+}
+
+.site-header__slash {
+  font-size: 20px;
+  font-weight: 300;
+  color: var(--green-kirkas);
+  margin: 0 7px;
+  line-height: 1;
+}
+
+.site-header__label {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--green);
+  white-space: nowrap;
+}
+
+/* Nav */
+.site-header__nav {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+/* Hamburger toggle — visible on mobile only */
+.site-header__nav-toggle {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 20px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.site-header__nav-toggle span {
+  display: block;
+  height: 2px;
+  background: var(--ink-mid);
+  border-radius: 2px;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+@media (min-width: 1024px) {
+  .site-header__nav-toggle {
+    display: none;
+  }
+}
+
+/* Mobile nav drawer */
+.site-header__nav-links {
+  display: none;
+  position: fixed;
+  top: 64px;
+  left: 0;
+  right: 0;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 16px;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 99;
+}
+
+.nav-open .site-header__nav-links {
+  display: flex;
+}
+
+@media (min-width: 1024px) {
+  .site-header__nav-links {
+    display: flex;
+    position: static;
+    flex-direction: row;
+    align-items: center;
+    padding: 0;
+    border: none;
+    background: none;
+  }
+}
+
+/* Nav link items */
+.site-header__nav-links a {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-mid);
+  padding: 6px 12px;
+  border-radius: var(--radius);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+
+.site-header__nav-links a:hover,
+.site-header__nav-links a:focus-visible {
+  background: var(--green-light);
+  color: var(--green-dark);
+}
+
+.site-header__nav-links a.is-active {
+  background: var(--green-light);
+  font-weight: 600;
+  color: var(--green-dark);
+}
+
+/* Account link with border */
+.site-header__account-link a {
+  border: 1.5px solid var(--border);
+}
+
+/* Separator between primary nav and account nav */
+.site-header__nav-separator {
+  display: none;
+  width: 1px;
+  height: 20px;
+  background: var(--border);
+  margin: 0 4px;
+  flex-shrink: 0;
+}
+
+@media (min-width: 1024px) {
+  .site-header__nav-separator {
+    display: block;
+  }
+}
+
+/* Block wrappers inside header regions — strip default block padding */
+.region-header .block {
+  margin: 0;
+}
+
+/* Menu blocks rendered inside nav drawer — strip <ul> list styles.
+   page.html.twig puts {{ page.primary_menu }} directly inside
+   .site-header__nav-links, so there is no .region-primary-menu wrapper. */
+.site-header__nav-links ul:not(.contextual-links) {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+@media (min-width: 1024px) {
+  .site-header__nav-links ul:not(.contextual-links) {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.site-header__nav-links ul:not(.contextual-links) li a {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-mid);
+  padding: 6px 12px;
+  border-radius: var(--radius);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+
+.site-header__nav-links ul:not(.contextual-links) li a:hover,
+.site-header__nav-links ul:not(.contextual-links) li a.is-active {
+  background: var(--green-light);
+  color: var(--green-dark);
+}
+
+.site-header__nav-links ul:not(.contextual-links) li a.is-active {
+  font-weight: 600;
+}
+
+/* Account area (secondary_menu) gets a bordered pill style */
+.site-header__account-link ul:not(.contextual-links) li a {
+  border: 1.5px solid var(--border);
+}

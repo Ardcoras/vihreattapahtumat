@@ -1,0 +1,34 @@
+.layout-container {
+  width: 100%;
+  padding: 0 16px;
+}
+
+@media (min-width: 1024px) {
+  .layout-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+}
+
+main {
+  padding: 24px 0;
+}
+
+/* Sidebar layout — applied per-page when sidebar is present */
+.layout-with-sidebar {
+  display: grid;
+  gap: 40px;
+}
+
+@media (min-width: 768px) {
+  .layout-with-sidebar {
+    grid-template-columns: 1fr 340px;
+    align-items: start;
+  }
+
+  .layout-sidebar-sticky {
+    position: sticky;
+    top: 80px;
+  }
+}

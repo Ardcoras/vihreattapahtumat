@@ -27,12 +27,8 @@
 #}
 <div{{ attributes }}>
   {{ title_prefix }}
-  {% if name and not page %}
-    {% if view_mode == 'embed' %}
-      <h2>{{ term.label }}</h2>
-    {% else %}
-      <h2><a href="{{ url }}">{{ term.label }}</a></h2>
-    {% endif %}
+  {% if name and not page and view_mode != 'embed' %}
+    <h2><a href="{{ url }}">{{ term.label }}</a></h2>
   {% endif %}
   {{ title_suffix }}
   {{ content }}

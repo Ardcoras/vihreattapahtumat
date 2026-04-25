@@ -1,0 +1,163 @@
+<?php
+
+/**
+ * @file
+ * Theme functions for vihreat_tapahtumat.
+ */
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function vihreat_tapahtumat_preprocess_page(&$variables) {
+  $suppress = FALSE;
+
+  $node = \Drupal::routeMatch()->getParameter('node');
+  if ($node instanceof \Drupal\node\NodeInterface && $node->getType() === 'event') {
+    $suppress = TRUE;
+  }
+
+  if (\Drupal::routeMatch()->getRouteName() === 'view.upcoming_events.page_2') {
+    $suppress = TRUE;
+  }
+
+  if ($suppress) {
+    foreach ($variables['page']['content'] as $key => $value) {
+      if (is_array($value) && isset($value['#plugin_id']) && $value['#plugin_id'] === 'page_title_block') {
+        $variables['page']['content'][$key]['#access'] = FALSE;
+        break;
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_views_view().
+ */
+function vihreat_tapahtumat_preprocess_views_view(&$variables) {
+  $view = $variables['view'];
+  if ($view->id() !== 'upcoming_events' || $view->current_display !== 'page_2') {
+    return;
+  }
+
+  $variables['#attached']['library'][] = 'vihreat_tapahtumat/calendar-view';
+
+  $now = (new \DateTime('now', new \DateTimeZone('UTC')))->format('Y-m-d\TH:i:s');
+  $nids = \Drupal::entityTypeManager()->getStorage('node')->getQuery()
+    ->condition('type', 'event')
+    ->condition('status', 1)
+    ->condition('field_event_datetime.end_value', $now, '>=')
+    ->sort('field_event_datetime.value', 'ASC')
+    ->range(0, 9)
+    ->accessCheck(TRUE)
+    ->execute();
+
+  $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($nids);
+  $view_builder = \Drupal::entityTypeManager()->getViewBuilder('node');
+
+  $variables['upcoming_cards'] = [];
+  foreach ($nodes as $node) {
+    $variables['upcoming_cards'][] = $view_builder->view($node, 'teaser');
+  }
+}
+
+/**
+ * Implements hook_form_views_exposed_form_alter().
+ */
+function vihreat_tapahtumat_form_views_exposed_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+  if (($form['#id'] ?? '') !== 'views-exposed-form-upcoming-events-page-2') {
+    return;
+  }
+  $form['actions']['reset_link'] = [
+    '#type' => 'html_tag',
+    '#tag' => 'a',
+    '#value' => t('Tyhjennä'),
+    '#attributes' => [
+      'href' => \Drupal\Core\Url::fromRoute('view.upcoming_events.page_2')->toString(),
+      'class' => ['btn-filter-reset'],
+    ],
+    '#weight' => 10,
+  ];
+}
+
+/**
+ * Implements hook_preprocess_node().
+ */
+function vihreat_tapahtumat_preprocess_node(&$variables) {
+  $node = $variables['node'];
+
+  if ($node->getType() !== 'event') {
+    return;
+  }
+
+  if ($variables['view_mode'] === 'teaser') {
+    if (!$node->field_event_datetime->isEmpty()) {
+      $item = $node->field_event_datetime->first();
+      $start = new \DateTime($item->value, new \DateTimeZone('UTC'));
+
+      $months = ['', 'tam', 'hel', 'maa', 'huh', 'tou', 'kes', 'hei', 'elo', 'syy', 'lok', 'mar', 'jou'];
+      $weekdays = ['Su', 'Ma', 'Ti', 'Ke', 'To', 'Pe', 'La'];
+
+      $variables['card_day'] = $start->format('j');
+      $variables['card_month_weekday'] = $months[(int) $start->format('n')] . ' · ' . $weekdays[(int) $start->format('w')];
+
+      $start_time = $start->format('H.i');
+      $variables['card_time'] = ($start_time !== '00.00') ? $start_time : '';
+    }
+    return;
+  }
+
+  if ($variables['view_mode'] !== 'full') {
+    return;
+  }
+
+  $variables['#attached']['library'][] = 'vihreat_tapahtumat/event-detail';
+
+  // Format dates for the event detail template.
+  if (!$node->field_event_datetime->isEmpty()) {
+    $item = $node->field_event_datetime->first();
+
+    // Stored as UTC; parse without conversion to match site display.
+    $start = new \DateTime($item->value, new \DateTimeZone('UTC'));
+    $end_str = $item->end_value ?: $item->value;
+    $end = new \DateTime($end_str, new \DateTimeZone('UTC'));
+
+    $weekdays = [
+      'Sunnuntai', 'Maanantai', 'Tiistai', 'Keskiviikko',
+      'Torstai', 'Perjantai', 'Lauantai',
+    ];
+    $weekday = $weekdays[(int) $start->format('w')];
+
+    $start_time = $start->format('H.i');
+    $end_time = $end->format('H.i');
+    $date_str = $start->format('j.n.Y');
+
+    $variables['event_day'] = $weekday . ' ' . $date_str;
+
+    if ($end == $start) {
+      $variables['event_date_bar'] = $date_str . ' klo ' . $start_time;
+      $variables['event_time'] = 'klo ' . $start_time;
+    }
+    else {
+      $variables['event_date_bar'] = $date_str . ' klo ' . $start_time . ' – ' . $end_time;
+      $variables['event_time'] = 'klo ' . $start_time . ' – ' . $end_time;
+    }
+  }
+
+  // Render the place entity in embed view mode and build the OSM map URL.
+  if (!$node->field_place->isEmpty() && $node->field_place->entity) {
+    $place = $node->field_place->entity;
+
+    $variables['event_place_embed'] = \Drupal::entityTypeManager()
+      ->getViewBuilder('taxonomy_term')
+      ->view($place, 'embed');
+
+    if (!$place->field_location->isEmpty()) {
+      $wkt = $place->field_location->value;
+      if (preg_match('/POINT\(([^ ]+) ([^)]+)\)/', $wkt, $m)) {
+        $lon = $m[1];
+        $lat = $m[2];
+        $variables['place_map_url'] = "https://www.openstreetmap.org/?mlat={$lat}&mlon={$lon}#map=16/{$lat}/{$lon}";
+      }
+    }
+  }
+}

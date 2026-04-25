@@ -1,0 +1,9 @@
+name: 'Vihreät tapahtumat iCal helper'
+type: module
+description: 'Provides a page for generating iCal feed URLs.'
+core_version_requirement: ^10 || ^11
+package: Custom
+dependencies:
+  - drupal:node
+  - drupal:taxonomy
+  - ical

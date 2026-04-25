@@ -1,0 +1,7 @@
+vihreattapahtumat_ical_helper.page:
+  path: '/ohje/syote'
+  defaults:
+    _controller: '\Drupal\vihreattapahtumat_ical_helper\Controller\IcalHelperController::build'
+    _title: 'Tapahtumasyötteen osoite'
+  requirements:
+    _permission: 'access content'

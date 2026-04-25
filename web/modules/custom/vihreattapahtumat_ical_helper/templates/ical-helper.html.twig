@@ -1,0 +1,55 @@
+<div class="ical-helper" id="ical-helper" data-feed-base="{{ feed_base }}">
+
+  <p class="ical-helper__intro">
+    Valitse alta suodattimet, joita haluat käyttää. Voit valita useita — tapahtumat haetaan OR-logiikalla.
+  </p>
+
+  <div class="ical-helper__filters">
+
+    {% if municipalities %}
+    <div class="ical-helper__group">
+      <label for="ical-filter-city" class="ical-helper__label">Kunta</label>
+      <select id="ical-filter-city" class="ical-helper__select" data-param="city">
+        <option value="">— Kaikki kunnat —</option>
+        {% for item in municipalities %}
+          <option value="{{ item.id }}">{{ item.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    {% endif %}
+
+    {% if regions %}
+    <div class="ical-helper__group">
+      <label for="ical-filter-region" class="ical-helper__label">Maakunta</label>
+      <select id="ical-filter-region" class="ical-helper__select" data-param="region">
+        <option value="">— Kaikki maakunnat —</option>
+        {% for item in regions %}
+          <option value="{{ item.id }}">{{ item.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    {% endif %}
+
+    {% if organisers %}
+    <div class="ical-helper__group">
+      <label for="ical-filter-organiser" class="ical-helper__label">Yhdistys</label>
+      <select id="ical-filter-organiser" class="ical-helper__select" data-param="organiser">
+        <option value="">— Kaikki yhdistykset —</option>
+        {% for item in organisers %}
+          <option value="{{ item.id }}">{{ item.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    {% endif %}
+
+  </div>
+
+  <div class="ical-helper__result">
+    <label for="ical-helper-url" class="ical-helper__label">Syötteen osoite</label>
+    <div class="ical-helper__url-row">
+      <input type="text" id="ical-helper-url" class="ical-helper__url" readonly value="{{ feed_base }}">
+      <button type="button" id="ical-helper-copy" class="ical-helper__copy button button--primary">Kopioi</button>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,8 @@
+helper:
+  js:
+    js/ical-helper.js: {}
+  css:
+    component:
+      css/ical-helper.css: {}
+  dependencies:
+    - core/drupal

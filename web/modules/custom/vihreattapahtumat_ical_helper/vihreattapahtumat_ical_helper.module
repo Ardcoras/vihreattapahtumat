@@ -1,0 +1,16 @@
+<?php
+
+declare(strict_types=1);
+
+function vihreattapahtumat_ical_helper_theme(): array {
+  return [
+    'ical_helper' => [
+      'variables' => [
+        'municipalities' => [],
+        'regions' => [],
+        'organisers' => [],
+        'feed_base' => '',
+      ],
+    ],
+  ];
+}

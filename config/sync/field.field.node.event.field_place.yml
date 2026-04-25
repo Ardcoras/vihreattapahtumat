@@ -20,10 +20,11 @@ settings:
   handler: 'default:taxonomy_term'
   handler_settings:
     target_bundles:
+      municipality: municipality
       place: place
     sort:
       field: name
       direction: asc
     auto_create: false
-    auto_create_bundle: ''
+    auto_create_bundle: municipality
 field_type: entity_reference

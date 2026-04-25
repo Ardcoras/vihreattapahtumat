@@ -25,7 +25,6 @@ permissions:
   - 'access content'
   - 'create event content'
   - 'create events via api'
-  - 'create organisation content'
   - 'create terms in place'
   - 'delete own event content'
   - 'edit own event content'

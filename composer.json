@@ -29,6 +29,8 @@
         "drupal/optional_end_date": "^1.4",
         "drupal/pathauto": "^1.14",
         "drupal/redirect": "^1.12",
+        "drupal/term_merge": "^2.0",
+        "drupal/term_reference_change": "^2@beta",
         "drush/drush": "^13.6",
         "eluceo/ical": "^2",
         "geocoder-php/nominatim-provider": "^5.8",

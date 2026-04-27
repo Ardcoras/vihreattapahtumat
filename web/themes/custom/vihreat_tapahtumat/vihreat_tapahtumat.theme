@@ -152,7 +152,8 @@ function vihreat_tapahtumat_preprocess_node(&$variables) {
   if ($variables['view_mode'] === 'teaser') {
     if (!$node->field_event_datetime->isEmpty()) {
       $item = $node->field_event_datetime->first();
-      $start = new \DateTime($item->value, new \DateTimeZone('UTC'));
+      $local_tz = new \DateTimeZone(\Drupal::config('system.date')->get('timezone.default') ?: 'UTC');
+      $start = (new \DateTime($item->value, new \DateTimeZone('UTC')))->setTimezone($local_tz);
 
       $months = ['', 'tam', 'hel', 'maa', 'huh', 'tou', 'kes', 'hei', 'elo', 'syy', 'lok', 'mar', 'jou'];
       $weekdays = ['Su', 'Ma', 'Ti', 'Ke', 'To', 'Pe', 'La'];
@@ -175,9 +176,10 @@ function vihreat_tapahtumat_preprocess_node(&$variables) {
   if (!$node->field_event_datetime->isEmpty()) {
     $item = $node->field_event_datetime->first();
 
-    $start = new \DateTime($item->value, new \DateTimeZone('UTC'));
+    $local_tz = new \DateTimeZone(\Drupal::config('system.date')->get('timezone.default') ?: 'UTC');
+    $start = (new \DateTime($item->value, new \DateTimeZone('UTC')))->setTimezone($local_tz);
     $end_str = $item->end_value ?: $item->value;
-    $end = new \DateTime($end_str, new \DateTimeZone('UTC'));
+    $end = (new \DateTime($end_str, new \DateTimeZone('UTC')))->setTimezone($local_tz);
 
     $weekdays = [
       'Sunnuntai', 'Maanantai', 'Tiistai', 'Keskiviikko',
@@ -310,9 +312,10 @@ function _vihreat_tapahtumat_build_event_rows(string $field, int $value, bool $p
 
     if (!$node->field_event_datetime->isEmpty()) {
       $item = $node->field_event_datetime->first();
-      $start = new \DateTime($item->value, new \DateTimeZone('UTC'));
+      $local_tz = new \DateTimeZone(\Drupal::config('system.date')->get('timezone.default') ?: 'UTC');
+      $start = (new \DateTime($item->value, new \DateTimeZone('UTC')))->setTimezone($local_tz);
       $end_str = $item->end_value ?: $item->value;
-      $end = new \DateTime($end_str, new \DateTimeZone('UTC'));
+      $end = (new \DateTime($end_str, new \DateTimeZone('UTC')))->setTimezone($local_tz);
 
       $row['date_day'] = $start->format('j');
       $row['date_month'] = $months[(int) $start->format('n')];

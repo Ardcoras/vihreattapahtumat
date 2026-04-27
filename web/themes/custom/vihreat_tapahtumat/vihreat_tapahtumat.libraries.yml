@@ -27,3 +27,8 @@ calendar-view:
   css:
     theme:
       css/calendar-view.css: {}
+
+place-detail:
+  css:
+    theme:
+      css/place-detail.css: {}

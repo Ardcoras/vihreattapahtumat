@@ -1,0 +1,22 @@
+uuid: 7f1005cc-3bfb-4ebe-a328-bd9ae13b98e8
+langcode: fi
+status: true
+dependencies:
+  module:
+    - taxonomy
+id: municipality
+label: Municipality
+type: 'canonical_entities:taxonomy_term'
+pattern: 'kunta/[term:name]'
+selection_criteria:
+  97f58db0-f91b-4879-8ec5-e09ad5f81e94:
+    id: 'entity_bundle:taxonomy_term'
+    negate: false
+    uuid: 97f58db0-f91b-4879-8ec5-e09ad5f81e94
+    context_mapping:
+      taxonomy_term: taxonomy_term
+    bundles:
+      municipality: municipality
+selection_logic: and
+weight: -5
+relationships: {  }

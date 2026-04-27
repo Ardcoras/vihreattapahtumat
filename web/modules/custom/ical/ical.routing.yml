@@ -4,3 +4,11 @@ ical:
     _controller: '\Drupal\ical\Controller\IcalController::getIcal'
   requirements:
     _permission: 'access content'
+
+ical.event:
+  path: '/tapahtuma/{node}/calendar.ics'
+  defaults:
+    _controller: '\Drupal\ical\Controller\IcalController::getEventIcal'
+  requirements:
+    _permission: 'access content'
+    node: \d+

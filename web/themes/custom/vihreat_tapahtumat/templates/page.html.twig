@@ -2,10 +2,10 @@
   <div class="site-header__inner">
     <div class="site-header__branding">
       {{ page.header }}
-      <div class="site-header__subbrand" aria-hidden="true">
+      <a href="{{ path('<front>') }}" class="site-header__subbrand">
         <span class="site-header__slash">/</span>
         <span class="site-header__label">Tapahtumakalenteri</span>
-      </div>
+      </a>
     </div>
 
     <nav class="site-header__nav" aria-label="{{ 'Site navigation'|t }}">
@@ -32,7 +32,9 @@
 
   {% if page.highlighted %}
     <div class="region-highlighted">
-      {{ page.highlighted }}
+      <div class="layout-container">
+        {{ page.highlighted }}
+      </div>
     </div>
   {% endif %}
 

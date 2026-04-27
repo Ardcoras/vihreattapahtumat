@@ -1,9 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @file
  * Theme functions for vihreat_tapahtumat.
  */
+
+use Drupal\node\NodeInterface;
+use Drupal\taxonomy\TermInterface;
 
 /**
  * Implements hook_preprocess_page().
@@ -12,12 +17,23 @@ function vihreat_tapahtumat_preprocess_page(&$variables) {
   $suppress = FALSE;
 
   $node = \Drupal::routeMatch()->getParameter('node');
-  if ($node instanceof \Drupal\node\NodeInterface && $node->getType() === 'event') {
+  if ($node instanceof NodeInterface) {
+    if ($node->getType() === 'event' || $node->getType() === 'organisation') {
+      $suppress = TRUE;
+    }
+  }
+
+  $route = \Drupal::routeMatch()->getRouteName();
+
+  if ($route === 'view.upcoming_events.page_2') {
     $suppress = TRUE;
   }
 
-  if (\Drupal::routeMatch()->getRouteName() === 'view.upcoming_events.page_2') {
-    $suppress = TRUE;
+  if ($route === 'entity.taxonomy_term.canonical') {
+    $term = \Drupal::routeMatch()->getParameter('taxonomy_term');
+    if ($term instanceof TermInterface && $term->bundle() === 'place') {
+      $suppress = TRUE;
+    }
   }
 
   if ($suppress) {
@@ -80,10 +96,54 @@ function vihreat_tapahtumat_form_views_exposed_form_alter(&$form, \Drupal\Core\F
 }
 
 /**
+ * Implements hook_theme_suggestions_taxonomy_term_alter().
+ */
+function vihreat_tapahtumat_theme_suggestions_taxonomy_term_alter(array &$suggestions, array $variables): void {
+  $term = $variables['elements']['#taxonomy_term'];
+  $view_mode = $variables['elements']['#view_mode'];
+  $suggestions[] = 'taxonomy_term__' . $term->bundle() . '__' . $view_mode;
+}
+
+/**
+ * Implements hook_preprocess_taxonomy_term().
+ */
+function vihreat_tapahtumat_preprocess_taxonomy_term(&$variables) {
+  $term = $variables['term'];
+  if ($term->bundle() !== 'place' || $variables['view_mode'] !== 'full') {
+    return;
+  }
+
+  $variables['#attached']['library'][] = 'vihreat_tapahtumat/place-detail';
+
+  if (!$term->field_location->isEmpty()) {
+    $wkt = $term->field_location->value;
+    if (preg_match('/POINT\(([^ ]+) ([^)]+)\)/', $wkt, $m)) {
+      $lon = $m[1];
+      $lat = $m[2];
+      $variables['place_map_url'] = "https://www.openstreetmap.org/?mlat={$lat}&mlon={$lon}#map=16/{$lat}/{$lon}";
+    }
+  }
+
+  $variables['upcoming_events'] = _vihreat_tapahtumat_events_for_place((int) $term->id());
+  $variables['past_events'] = _vihreat_tapahtumat_events_for_place((int) $term->id(), past: TRUE);
+}
+
+/**
  * Implements hook_preprocess_node().
  */
 function vihreat_tapahtumat_preprocess_node(&$variables) {
   $node = $variables['node'];
+
+  if ($node->getType() !== 'event' && $node->getType() !== 'organisation') {
+    return;
+  }
+
+  if ($node->getType() === 'organisation' && $variables['view_mode'] === 'full') {
+    $variables['#attached']['library'][] = 'vihreat_tapahtumat/place-detail';
+    $variables['upcoming_events'] = _vihreat_tapahtumat_events_for_organiser((int) $node->id());
+    $variables['past_events'] = _vihreat_tapahtumat_events_for_organiser((int) $node->id(), past: TRUE);
+    return;
+  }
 
   if ($node->getType() !== 'event') {
     return;
@@ -100,8 +160,8 @@ function vihreat_tapahtumat_preprocess_node(&$variables) {
       $variables['card_day'] = $start->format('j');
       $variables['card_month_weekday'] = $months[(int) $start->format('n')] . ' · ' . $weekdays[(int) $start->format('w')];
 
-      $start_time = $start->format('H.i');
-      $variables['card_time'] = ($start_time !== '00.00') ? $start_time : '';
+      $start_time = _vihreat_tapahtumat_format_time($start);
+      $variables['card_time'] = ($start_time !== '0.00') ? $start_time : '';
     }
     return;
   }
@@ -112,11 +172,9 @@ function vihreat_tapahtumat_preprocess_node(&$variables) {
 
   $variables['#attached']['library'][] = 'vihreat_tapahtumat/event-detail';
 
-  // Format dates for the event detail template.
   if (!$node->field_event_datetime->isEmpty()) {
     $item = $node->field_event_datetime->first();
 
-    // Stored as UTC; parse without conversion to match site display.
     $start = new \DateTime($item->value, new \DateTimeZone('UTC'));
     $end_str = $item->end_value ?: $item->value;
     $end = new \DateTime($end_str, new \DateTimeZone('UTC'));
@@ -127,23 +185,28 @@ function vihreat_tapahtumat_preprocess_node(&$variables) {
     ];
     $weekday = $weekdays[(int) $start->format('w')];
 
-    $start_time = $start->format('H.i');
-    $end_time = $end->format('H.i');
-    $date_str = $start->format('j.n.Y');
+    $start_time = _vihreat_tapahtumat_format_time($start);
+    $end_time = _vihreat_tapahtumat_format_time($end);
+    $date_range = _vihreat_tapahtumat_format_date_range($start, $end);
+    $same_day = $end <= $start || $start->format('Y-m-d') === $end->format('Y-m-d');
+    $has_time = $start_time !== '0.00';
 
-    $variables['event_day'] = $weekday . ' ' . $date_str;
+    $variables['event_day'] = $weekday . ' ' . $date_range;
 
-    if ($end == $start) {
-      $variables['event_date_bar'] = $date_str . ' klo ' . $start_time;
-      $variables['event_time'] = 'klo ' . $start_time;
+    if (!$has_time) {
+      $variables['event_date_bar'] = $date_range;
+      $variables['event_time'] = '';
+    }
+    elseif ($same_day && $end_time !== $start_time) {
+      $variables['event_date_bar'] = $date_range . ' klo ' . $start_time . '–' . $end_time;
+      $variables['event_time'] = 'klo ' . $start_time . '–' . $end_time;
     }
     else {
-      $variables['event_date_bar'] = $date_str . ' klo ' . $start_time . ' – ' . $end_time;
-      $variables['event_time'] = 'klo ' . $start_time . ' – ' . $end_time;
+      $variables['event_date_bar'] = $date_range . ' klo ' . $start_time;
+      $variables['event_time'] = 'klo ' . $start_time;
     }
   }
 
-  // Render the place entity in embed view mode and build the OSM map URL.
   if (!$node->field_place->isEmpty() && $node->field_place->entity) {
     $place = $node->field_place->entity;
 
@@ -160,4 +223,125 @@ function vihreat_tapahtumat_preprocess_node(&$variables) {
       }
     }
   }
+}
+
+/**
+ * Formats a time as G.i (24-hour, no leading zero, dot separator).
+ */
+function _vihreat_tapahtumat_format_time(\DateTime $dt): string {
+  return $dt->format('G.i');
+}
+
+/**
+ * Formats a date range showing only the changing components.
+ *
+ * Same day:           j.n.Y
+ * Same month/year:    j.–end_j.n.Y
+ * Different month:    j.n.–end_j.end_n.Y
+ */
+function _vihreat_tapahtumat_format_date_range(\DateTime $start, \DateTime $end): string {
+  if ($end <= $start || $start->format('Y-m-d') === $end->format('Y-m-d')) {
+    return $start->format('j.n.Y');
+  }
+  if ($start->format('Y-m') === $end->format('Y-m')) {
+    return $start->format('j') . '.–' . $end->format('j.n.Y');
+  }
+  return $start->format('j.n') . '.–' . $end->format('j.n.Y');
+}
+
+/**
+ * Returns structured event data for events at a given place.
+ */
+function _vihreat_tapahtumat_events_for_place(int $tid, bool $past = FALSE): array {
+  return _vihreat_tapahtumat_build_event_rows(
+    field: 'field_place',
+    value: $tid,
+    past: $past,
+    include_organiser: TRUE,
+  );
+}
+
+/**
+ * Returns structured event data for events by a given organiser.
+ */
+function _vihreat_tapahtumat_events_for_organiser(int $nid, bool $past = FALSE): array {
+  return _vihreat_tapahtumat_build_event_rows(
+    field: 'field_event_organiser',
+    value: $nid,
+    past: $past,
+    include_organiser: FALSE,
+  );
+}
+
+/**
+ * Queries upcoming or past events filtered by a single entity reference field.
+ */
+function _vihreat_tapahtumat_build_event_rows(string $field, int $value, bool $past, bool $include_organiser): array {
+  $now = (new \DateTime('now', new \DateTimeZone('UTC')))->format('Y-m-d\TH:i:s');
+  $operator = $past ? '<' : '>=';
+  $sort = $past ? 'DESC' : 'ASC';
+
+  $nids = \Drupal::entityTypeManager()->getStorage('node')->getQuery()
+    ->condition('type', 'event')
+    ->condition('status', 1)
+    ->condition($field, $value)
+    ->condition('field_event_datetime.end_value', $now, $operator)
+    ->sort('field_event_datetime.value', $sort)
+    ->range(0, 20)
+    ->accessCheck(TRUE)
+    ->execute();
+
+  $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($nids);
+
+  $months = ['', 'tam', 'hel', 'maa', 'huh', 'tou', 'kes', 'hei', 'elo', 'syy', 'lok', 'mar', 'jou'];
+  $rows = [];
+
+  foreach ($nodes as $node) {
+    $row = [
+      'url' => $node->toUrl()->toString(),
+      'title' => $node->label(),
+      'date_day' => '',
+      'date_month' => '',
+      'time_text' => '',
+      'type_label' => $node->field_event_type->entity?->label(),
+      'organiser' => NULL,
+      'place' => NULL,
+    ];
+
+    if (!$node->field_event_datetime->isEmpty()) {
+      $item = $node->field_event_datetime->first();
+      $start = new \DateTime($item->value, new \DateTimeZone('UTC'));
+      $end_str = $item->end_value ?: $item->value;
+      $end = new \DateTime($end_str, new \DateTimeZone('UTC'));
+
+      $row['date_day'] = $start->format('j');
+      $row['date_month'] = $months[(int) $start->format('n')];
+
+      $start_time = _vihreat_tapahtumat_format_time($start);
+      $end_time = _vihreat_tapahtumat_format_time($end);
+      $same_day = $end <= $start || $start->format('Y-m-d') === $end->format('Y-m-d');
+
+      if ($start_time === '0.00') {
+        $row['time_text'] = '';
+      }
+      elseif ($same_day && $end_time !== $start_time) {
+        $row['time_text'] = 'klo ' . $start_time . '–' . $end_time;
+      }
+      else {
+        $row['time_text'] = 'klo ' . $start_time;
+      }
+    }
+
+    if ($include_organiser && !$node->field_event_organiser->isEmpty()) {
+      $row['organiser'] = $node->field_event_organiser->first()->entity?->label();
+    }
+
+    if (!$include_organiser && !$node->field_place->isEmpty()) {
+      $row['place'] = $node->field_place->entity?->label();
+    }
+
+    $rows[] = $row;
+  }
+
+  return $rows;
 }

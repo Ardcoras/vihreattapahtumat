@@ -11,7 +11,6 @@ dependencies:
   module:
     - layout_builder
     - leaflet
-    - text
 third_party_settings:
   layout_builder:
     enabled: false
@@ -21,13 +20,6 @@ targetEntityType: taxonomy_term
 bundle: place
 mode: embed
 content:
-  description:
-    type: text_default
-    label: inline
-    settings: {  }
-    third_party_settings: {  }
-    weight: 0
-    region: content
   field_location:
     type: leaflet_formatter_default
     label: hidden
@@ -124,23 +116,10 @@ content:
       map_lazy_load:
         lazy_load: false
     third_party_settings: {  }
-    weight: 3
-    region: content
-  field_municipality:
-    type: entity_reference_label
-    label: hidden
-    settings:
-      link: false
-    third_party_settings: {  }
-    weight: 2
-    region: content
-  field_street_address:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 1
+    weight: 0
     region: content
 hidden:
+  description: true
+  field_municipality: true
+  field_street_address: true
   langcode: true

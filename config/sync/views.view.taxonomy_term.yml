@@ -304,6 +304,7 @@ display:
     display_plugin: page
     position: 1
     display_options:
+      enabled: false
       query:
         type: views_query
         options: {  }

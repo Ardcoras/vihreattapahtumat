@@ -258,6 +258,15 @@
   color: var(--ink);
 }
 
+.location-venue--link {
+  color: var(--green);
+  text-decoration: none;
+}
+
+.location-venue--link:hover {
+  text-decoration: underline;
+}
+
 .location-address {
   font-size: 13px;
   color: var(--ink-light);

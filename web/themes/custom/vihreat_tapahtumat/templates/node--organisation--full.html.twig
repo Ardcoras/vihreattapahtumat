@@ -1,0 +1,93 @@
+<article{{ attributes }}>
+  {{ title_prefix }}
+  {{ title_suffix }}
+
+  <div class="place-main">
+
+    <h1 class="place-title">{{ node.label }}</h1>
+
+    {% if node.body.processed %}
+      <div class="place-description">{{ node.body.processed }}</div>
+    {% endif %}
+
+  </div>
+
+  {% if upcoming_events is defined %}
+    <section class="events-section events-section--org">
+      <div class="events-section__header">
+        <h2 class="events-section__title">{{ 'Tulevat tapahtumat'|t }}</h2>
+        {% if upcoming_events %}
+          <span class="events-section__count">{{ upcoming_events|length }} {{ 'tapahtumaa'|t }}</span>
+        {% endif %}
+      </div>
+
+      {% if upcoming_events %}
+        <div class="event-list">
+          {% for ev in upcoming_events %}
+            <a href="{{ ev.url }}" class="event-row">
+              <div class="event-row__date">
+                <div class="event-row__day">{{ ev.date_day }}</div>
+                <div class="event-row__month">{{ ev.date_month }}</div>
+              </div>
+              <div class="event-row__body">
+                <div class="event-row__title">{{ ev.title }}</div>
+                <div class="event-row__meta-text">
+                  {{- ev.time_text -}}
+                  {% if ev.time_text and ev.place %} · {% endif %}
+                  {{- ev.place -}}
+                </div>
+              </div>
+              <div class="event-row__right">
+                {% if ev.type_label %}
+                  <span class="event-row__badge">{{ ev.type_label }}</span>
+                {% endif %}
+                <svg class="event-row__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </a>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="events-section__empty">{{ 'Ei tulevia tapahtumia.'|t }}</p>
+      {% endif %}
+
+      {% if past_events is defined and past_events %}
+        <button class="past-toggle" data-past-toggle type="button">
+          <svg class="past-toggle__chevron" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M4 5.5l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          {{ 'Näytä aiemmat tapahtumat'|t }} ({{ past_events|length }})
+        </button>
+        <div class="event-list event-list--past" hidden data-past-list>
+          {% for ev in past_events %}
+            <a href="{{ ev.url }}" class="event-row">
+              <div class="event-row__date">
+                <div class="event-row__day">{{ ev.date_day }}</div>
+                <div class="event-row__month">{{ ev.date_month }}</div>
+              </div>
+              <div class="event-row__body">
+                <div class="event-row__title">{{ ev.title }}</div>
+                <div class="event-row__meta-text">
+                  {{- ev.time_text -}}
+                  {% if ev.time_text and ev.place %} · {% endif %}
+                  {{- ev.place -}}
+                </div>
+              </div>
+              <div class="event-row__right">
+                {% if ev.type_label %}
+                  <span class="event-row__badge">{{ ev.type_label }}</span>
+                {% endif %}
+                <svg class="event-row__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </a>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+    </section>
+  {% endif %}
+
+</article>

@@ -1,23 +1,22 @@
-uuid: 85b52614-5da6-46c5-8835-c30bd4585354
+uuid: 7188dd71-8187-4e6f-b437-57e3a66456e1
 langcode: fi
 status: true
 dependencies:
   module:
     - node
-id: muut_sisallot
-label: 'Muut sisällöt'
+id: organiser
+label: Organiser
 type: 'canonical_entities:node'
-pattern: '/[node:title]'
+pattern: 'jarjestaja/[node:title]'
 selection_criteria:
-  b9c49142-1ccf-4665-b9fe-93da666c6c05:
+  c7aba745-b521-416f-9e01-363acd9e70f6:
     id: 'entity_bundle:node'
     negate: false
-    uuid: b9c49142-1ccf-4665-b9fe-93da666c6c05
+    uuid: c7aba745-b521-416f-9e01-363acd9e70f6
     context_mapping:
       node: node
     bundles:
-      event: event
-      page: page
+      organisation: organisation
 selection_logic: and
 weight: -5
 relationships: {  }

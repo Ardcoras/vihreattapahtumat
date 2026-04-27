@@ -1,0 +1,22 @@
+uuid: 28c3805b-eb06-482b-b550-23ff01cbc11e
+langcode: fi
+status: true
+dependencies:
+  module:
+    - taxonomy
+id: location
+label: Location
+type: 'canonical_entities:taxonomy_term'
+pattern: 'paikka/[term:name]'
+selection_criteria:
+  40128d06-8ee0-4e63-8238-a9ca734b02fe:
+    id: 'entity_bundle:taxonomy_term'
+    negate: false
+    uuid: 40128d06-8ee0-4e63-8238-a9ca734b02fe
+    context_mapping:
+      taxonomy_term: taxonomy_term
+    bundles:
+      place: place
+selection_logic: and
+weight: -5
+relationships: {  }

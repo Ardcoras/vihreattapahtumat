@@ -7,7 +7,7 @@ dependencies:
 id: event
 label: Tapahtuma
 type: 'canonical_entities:node'
-pattern: 'tapahtuma/[node:field_event_datetime:end_date:custom:Y-j-n]_[node:title]'
+pattern: 'tapahtuma/[node:field_event_datetime:end_date:custom:Y-n-j]_[node:title]'
 selection_criteria:
   b750a16c-17cf-4288-ba49-2d591b6cb6ca:
     id: 'entity_bundle:node'

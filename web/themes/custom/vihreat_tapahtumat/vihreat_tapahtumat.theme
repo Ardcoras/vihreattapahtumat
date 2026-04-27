@@ -216,7 +216,7 @@ function vihreat_tapahtumat_preprocess_node(&$variables) {
       ->getViewBuilder('taxonomy_term')
       ->view($place, 'embed');
 
-    if (!$place->field_location->isEmpty()) {
+    if ($place->hasField('field_location') && !$place->field_location->isEmpty()) {
       $wkt = $place->field_location->value;
       if (preg_match('/POINT\(([^ ]+) ([^)]+)\)/', $wkt, $m)) {
         $lon = $m[1];

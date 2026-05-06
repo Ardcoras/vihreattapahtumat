@@ -1,37 +1,27 @@
-uuid: 50a38e75-24c2-4777-b6fc-90036188f854
+uuid: fb0a50d3-213c-46d6-98e9-0b30bed0f208
 langcode: fi
 status: true
 dependencies:
   config:
+    - core.entity_view_mode.taxonomy_term.embed
     - field.field.taxonomy_term.municipality.field_location
-    - field.field.taxonomy_term.municipality.field_official_id
-    - field.field.taxonomy_term.municipality.field_regions
     - taxonomy.vocabulary.municipality
   module:
-    - geofield
     - leaflet
-    - text
-id: taxonomy_term.municipality.default
+id: taxonomy_term.municipality.embed
 targetEntityType: taxonomy_term
 bundle: municipality
-mode: default
+mode: embed
 content:
-  description:
-    type: text_default
-    label: hidden
-    settings: {  }
-    third_party_settings: {  }
-    weight: 0
-    region: content
   field_location:
     type: leaflet_formatter_default
-    label: above
+    label: hidden
     settings:
       multiple_map: false
       leaflet_map: 'OSM Mapnik'
-      height: 300
+      height: 400
       height_unit: px
-      hide_empty_map: true
+      hide_empty_map: false
       disable_wheel: false
       gesture_handling: false
       fitbounds_options: '{"padding":[0,0]}'
@@ -119,16 +109,10 @@ content:
       map_lazy_load:
         lazy_load: false
     third_party_settings: {  }
-    weight: 1
-    region: content
-  field_regions:
-    type: entity_reference_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 2
+    weight: 0
     region: content
 hidden:
+  description: true
   field_official_id: true
+  field_regions: true
   langcode: true

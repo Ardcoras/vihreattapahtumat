@@ -7,12 +7,12 @@ dependencies:
 id: event
 label: Tapahtuma
 type: 'canonical_entities:node'
-pattern: 'tapahtuma/[node:field_event_datetime:end_date:custom:Y-n-j]_[node:title]'
+pattern: 'tapahtuma/[node:field_event_datetime:start_date:custom:Y-n-j]_[node:title]'
 selection_criteria:
-  b750a16c-17cf-4288-ba49-2d591b6cb6ca:
+  b4e98e0d-24e9-43fe-ad84-34eaf18434b4:
     id: 'entity_bundle:node'
     negate: false
-    uuid: b750a16c-17cf-4288-ba49-2d591b6cb6ca
+    uuid: b4e98e0d-24e9-43fe-ad84-34eaf18434b4
     context_mapping:
       node: node
     bundles:

@@ -126,12 +126,14 @@
               </svg>
               <div class="meta-row__content">
                 <a href="{{ path('entity.taxonomy_term.canonical', {'taxonomy_term': node.field_place.entity.id}) }}" class="location-venue location-venue--link">{{ node.field_place.entity.label }}</a>
-                <span class="location-address">
-                  {{- node.field_place.entity.field_street_address.value -}}
-                  {% if node.field_place.entity.field_municipality.entity %}
-                    <br>{{ node.field_place.entity.field_municipality.entity.label }}
-                  {% endif %}
-                </span>
+                {% if node.field_place.entity.bundle == 'place' %}
+                  <span class="location-address">
+                    {{- node.field_place.entity.field_street_address.value -}}
+                    {% if node.field_place.entity.field_municipality.entity %}
+                      <br>{{ node.field_place.entity.field_municipality.entity.label }}
+                    {% endif %}
+                  </span>
+                {% endif %}
               </div>
             </div>
 

@@ -58,10 +58,17 @@ function vihreat_tapahtumat_preprocess_views_view(&$variables) {
   $variables['#attached']['library'][] = 'vihreat_tapahtumat/calendar-view';
 
   $now = (new \DateTime('now', new \DateTimeZone('UTC')))->format('Y-m-d\TH:i:s');
-  $nids = \Drupal::entityTypeManager()->getStorage('node')->getQuery()
+  $query = \Drupal::entityTypeManager()->getStorage('node')->getQuery()
     ->condition('type', 'event')
-    ->condition('status', 1)
+    ->condition('status', 1);
+  $no_end_group = $query->andConditionGroup()
+    ->condition('field_event_datetime.end_value', NULL, 'IS NULL')
+    ->condition('field_event_datetime.value', $now, '>=');
+  $date_condition = $query->orConditionGroup()
     ->condition('field_event_datetime.end_value', $now, '>=')
+    ->condition($no_end_group);
+  $nids = $query
+    ->condition($date_condition)
     ->sort('field_event_datetime.value', 'ASC')
     ->range(0, 9)
     ->accessCheck(TRUE)
@@ -283,11 +290,18 @@ function _vihreat_tapahtumat_build_event_rows(string $field, int $value, bool $p
   $operator = $past ? '<' : '>=';
   $sort = $past ? 'DESC' : 'ASC';
 
-  $nids = \Drupal::entityTypeManager()->getStorage('node')->getQuery()
+  $query = \Drupal::entityTypeManager()->getStorage('node')->getQuery()
     ->condition('type', 'event')
     ->condition('status', 1)
-    ->condition($field, $value)
+    ->condition($field, $value);
+  $no_end_group = $query->andConditionGroup()
+    ->condition('field_event_datetime.end_value', NULL, 'IS NULL')
+    ->condition('field_event_datetime.value', $now, $operator);
+  $date_condition = $query->orConditionGroup()
     ->condition('field_event_datetime.end_value', $now, $operator)
+    ->condition($no_end_group);
+  $nids = $query
+    ->condition($date_condition)
     ->sort('field_event_datetime.value', $sort)
     ->range(0, 20)
     ->accessCheck(TRUE)

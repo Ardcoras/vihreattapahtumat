@@ -1,0 +1,8 @@
+location_autocomplete:
+  js:
+    js/location-widget.js: {}
+  css:
+    component:
+      css/location-widget.css: {}
+  dependencies:
+    - core/drupal

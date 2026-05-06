@@ -51,6 +51,7 @@ module:
   vihreattapahtumat_api: 0
   vihreattapahtumat_geocoder: 0
   vihreattapahtumat_ical_helper: 0
+  vihreattapahtumat_location_widget: 0
   pathauto: 1
   views: 10
   minimal: 1000

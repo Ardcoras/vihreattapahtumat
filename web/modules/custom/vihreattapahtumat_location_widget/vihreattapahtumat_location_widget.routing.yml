@@ -1,0 +1,36 @@
+vihreattapahtumat_location_widget.autocomplete:
+  path: '/api/internal/location-autocomplete'
+  defaults:
+    _controller: '\Drupal\vihreattapahtumat_location_widget\Controller\LocationAutocompleteController::autocomplete'
+  requirements:
+    _permission: 'access content'
+  options:
+    no_cache: TRUE
+
+vihreattapahtumat_location_widget.municipality_autocomplete:
+  path: '/api/internal/location-municipality-autocomplete'
+  defaults:
+    _controller: '\Drupal\vihreattapahtumat_location_widget\Controller\LocationAutocompleteController::municipalityAutocomplete'
+  requirements:
+    _permission: 'access content'
+  options:
+    no_cache: TRUE
+
+vihreattapahtumat_location_widget.quick_create:
+  path: '/api/internal/location-quick-create'
+  defaults:
+    _controller: '\Drupal\vihreattapahtumat_location_widget\Controller\LocationQuickCreateController::save'
+  requirements:
+    _user_is_logged_in: 'TRUE'
+  methods: [POST]
+  options:
+    no_cache: TRUE
+
+vihreattapahtumat_location_widget.preview:
+  path: '/api/internal/location-preview'
+  defaults:
+    _controller: '\Drupal\vihreattapahtumat_location_widget\Controller\LocationPreviewController::preview'
+  requirements:
+    _permission: 'access content'
+  options:
+    no_cache: TRUE

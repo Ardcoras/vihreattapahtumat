@@ -1188,7 +1188,7 @@ display:
           dialogWindow: 0
           openEntityInNewTab: 1
           createEventLink: 0
-          eventLimit: '2'
+          eventLimit: '3'
           tax_field: ''
           vocabularies: ''
           color_bundle:

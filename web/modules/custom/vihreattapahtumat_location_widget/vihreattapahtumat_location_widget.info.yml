@@ -1,0 +1,9 @@
+name: 'Vihreät tapahtumat location widget'
+type: module
+description: 'Smart location autocomplete widget for event nodes.'
+core_version_requirement: ^10 || ^11
+package: 'Vihreät tapahtumat'
+dependencies:
+  - drupal:field
+  - drupal:taxonomy
+  - drupal:node

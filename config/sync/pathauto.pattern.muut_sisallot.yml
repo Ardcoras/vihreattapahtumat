@@ -2,6 +2,9 @@ uuid: 85b52614-5da6-46c5-8835-c30bd4585354
 langcode: fi
 status: true
 dependencies:
+  config:
+    - node.type.event
+    - node.type.page
   module:
     - node
 id: muut_sisallot
@@ -12,7 +15,6 @@ selection_criteria:
   b9c49142-1ccf-4665-b9fe-93da666c6c05:
     id: 'entity_bundle:node'
     negate: false
-    uuid: b9c49142-1ccf-4665-b9fe-93da666c6c05
     context_mapping:
       node: node
     bundles:

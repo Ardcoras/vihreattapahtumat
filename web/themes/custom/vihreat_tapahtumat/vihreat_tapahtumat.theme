@@ -70,7 +70,7 @@ function vihreat_tapahtumat_preprocess_views_view(&$variables) {
   $nids = $query
     ->condition($date_condition)
     ->sort('field_event_datetime.value', 'ASC')
-    ->range(0, 9)
+    ->range(0, 3)
     ->accessCheck(TRUE)
     ->execute();
 

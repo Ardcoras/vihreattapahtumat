@@ -2,17 +2,18 @@ uuid: 7188dd71-8187-4e6f-b437-57e3a66456e1
 langcode: fi
 status: true
 dependencies:
+  config:
+    - node.type.organisation
   module:
     - node
 id: organiser
 label: Organiser
 type: 'canonical_entities:node'
-pattern: 'jarjestaja/[node:title]'
+pattern: '/jarjestaja/[node:title]'
 selection_criteria:
   c7aba745-b521-416f-9e01-363acd9e70f6:
     id: 'entity_bundle:node'
     negate: false
-    uuid: c7aba745-b521-416f-9e01-363acd9e70f6
     context_mapping:
       node: node
     bundles:

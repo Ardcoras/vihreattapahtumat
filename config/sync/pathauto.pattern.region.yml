@@ -2,17 +2,18 @@ uuid: afb0fa59-d3c9-49eb-91d3-a8d9e2df3a3c
 langcode: fi
 status: true
 dependencies:
+  config:
+    - taxonomy.vocabulary.region
   module:
     - taxonomy
 id: region
 label: Region
 type: 'canonical_entities:taxonomy_term'
-pattern: 'alue/[term:name]'
+pattern: '/alue/[term:name]'
 selection_criteria:
   77b14528-865c-4648-8e9a-859a6933600e:
     id: 'entity_bundle:taxonomy_term'
     negate: false
-    uuid: 77b14528-865c-4648-8e9a-859a6933600e
     context_mapping:
       taxonomy_term: taxonomy_term
     bundles:

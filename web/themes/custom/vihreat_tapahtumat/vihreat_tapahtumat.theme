@@ -8,6 +8,8 @@ declare(strict_types=1);
  */
 
 use Drupal\node\NodeInterface;
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\taxonomy\TermInterface;
 
 /**
@@ -76,11 +78,14 @@ function vihreat_tapahtumat_preprocess_views_view(&$variables) {
 
   $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($nids);
   $view_builder = \Drupal::entityTypeManager()->getViewBuilder('node');
+  $cacheability = _vihreat_tapahtumat_event_list_cacheability();
 
   $variables['upcoming_cards'] = [];
   foreach ($nodes as $node) {
+    $cacheability->addCacheableDependency($node);
     $variables['upcoming_cards'][] = $view_builder->view($node, 'teaser');
   }
+  _vihreat_tapahtumat_apply_cacheability($variables, $cacheability);
 }
 
 /**
@@ -131,8 +136,10 @@ function vihreat_tapahtumat_preprocess_taxonomy_term(&$variables) {
     }
   }
 
-  $variables['upcoming_events'] = _vihreat_tapahtumat_events_for_place((int) $term->id());
-  $variables['past_events'] = _vihreat_tapahtumat_events_for_place((int) $term->id(), past: TRUE);
+  $cacheability = CacheableMetadata::createFromObject($term);
+  $variables['upcoming_events'] = _vihreat_tapahtumat_events_for_place((int) $term->id(), $cacheability);
+  $variables['past_events'] = _vihreat_tapahtumat_events_for_place((int) $term->id(), $cacheability, past: TRUE);
+  _vihreat_tapahtumat_apply_cacheability($variables, $cacheability);
 }
 
 /**
@@ -147,8 +154,10 @@ function vihreat_tapahtumat_preprocess_node(&$variables) {
 
   if ($node->getType() === 'organisation' && $variables['view_mode'] === 'full') {
     $variables['#attached']['library'][] = 'vihreat_tapahtumat/place-detail';
-    $variables['upcoming_events'] = _vihreat_tapahtumat_events_for_organiser((int) $node->id());
-    $variables['past_events'] = _vihreat_tapahtumat_events_for_organiser((int) $node->id(), past: TRUE);
+    $cacheability = CacheableMetadata::createFromObject($node);
+    $variables['upcoming_events'] = _vihreat_tapahtumat_events_for_organiser((int) $node->id(), $cacheability);
+    $variables['past_events'] = _vihreat_tapahtumat_events_for_organiser((int) $node->id(), $cacheability, past: TRUE);
+    _vihreat_tapahtumat_apply_cacheability($variables, $cacheability);
     return;
   }
 
@@ -218,6 +227,7 @@ function vihreat_tapahtumat_preprocess_node(&$variables) {
 
   if (!$node->field_place->isEmpty() && $node->field_place->entity) {
     $place = $node->field_place->entity;
+    _vihreat_tapahtumat_apply_cacheability($variables, CacheableMetadata::createFromObject($place));
 
     $variables['event_place_embed'] = \Drupal::entityTypeManager()
       ->getViewBuilder('taxonomy_term')
@@ -261,31 +271,46 @@ function _vihreat_tapahtumat_format_date_range(\DateTime $start, \DateTime $end)
 /**
  * Returns structured event data for events at a given place.
  */
-function _vihreat_tapahtumat_events_for_place(int $tid, bool $past = FALSE): array {
+function _vihreat_tapahtumat_events_for_place(int $tid, CacheableMetadata $cacheability, bool $past = FALSE): array {
   return _vihreat_tapahtumat_build_event_rows(
     field: 'field_place',
     value: $tid,
     past: $past,
     include_organiser: TRUE,
+    cacheability: $cacheability,
   );
 }
 
 /**
  * Returns structured event data for events by a given organiser.
  */
-function _vihreat_tapahtumat_events_for_organiser(int $nid, bool $past = FALSE): array {
+function _vihreat_tapahtumat_events_for_organiser(int $nid, CacheableMetadata $cacheability, bool $past = FALSE): array {
   return _vihreat_tapahtumat_build_event_rows(
     field: 'field_event_organiser',
     value: $nid,
     past: $past,
     include_organiser: FALSE,
+    cacheability: $cacheability,
   );
+}
+
+/**
+ * Returns cacheability metadata for manually queried event lists.
+ */
+function _vihreat_tapahtumat_event_list_cacheability(): CacheableMetadata {
+  return (new CacheableMetadata())
+    ->addCacheTags(['node_list:event'])
+    ->addCacheContexts(['user.permissions', 'user.node_grants:view']);
 }
 
 /**
  * Queries upcoming or past events filtered by a single entity reference field.
  */
-function _vihreat_tapahtumat_build_event_rows(string $field, int $value, bool $past, bool $include_organiser): array {
+function _vihreat_tapahtumat_build_event_rows(string $field, int $value, bool $past, bool $include_organiser, CacheableMetadata $cacheability): array {
+  $cacheability
+    ->addCacheTags(['node_list:event'])
+    ->addCacheContexts(['user.permissions', 'user.node_grants:view']);
+
   $now = (new \DateTime('now', new \DateTimeZone('UTC')))->format('Y-m-d\TH:i:s');
   $operator = $past ? '<' : '>=';
   $sort = $past ? 'DESC' : 'ASC';
@@ -313,6 +338,9 @@ function _vihreat_tapahtumat_build_event_rows(string $field, int $value, bool $p
   $rows = [];
 
   foreach ($nodes as $node) {
+    $cacheability->addCacheableDependency($node);
+    _vihreat_tapahtumat_add_entity_cacheability($cacheability, $node->field_event_type->entity);
+
     $row = [
       'url' => $node->toUrl()->toString(),
       'title' => $node->label(),
@@ -350,15 +378,38 @@ function _vihreat_tapahtumat_build_event_rows(string $field, int $value, bool $p
     }
 
     if ($include_organiser && !$node->field_event_organiser->isEmpty()) {
-      $row['organiser'] = $node->field_event_organiser->first()->entity?->label();
+      $organiser = $node->field_event_organiser->first()->entity;
+      _vihreat_tapahtumat_add_entity_cacheability($cacheability, $organiser);
+      $row['organiser'] = $organiser?->label();
     }
 
     if (!$include_organiser && !$node->field_place->isEmpty()) {
-      $row['place'] = $node->field_place->entity?->label();
+      $place = $node->field_place->entity;
+      _vihreat_tapahtumat_add_entity_cacheability($cacheability, $place);
+      $row['place'] = $place?->label();
     }
 
     $rows[] = $row;
   }
 
   return $rows;
+}
+
+/**
+ * Adds an entity dependency when an optional reference resolved successfully.
+ */
+function _vihreat_tapahtumat_add_entity_cacheability(CacheableMetadata $cacheability, ?EntityInterface $entity): void {
+  if ($entity instanceof EntityInterface) {
+    $cacheability->addCacheableDependency($entity);
+  }
+}
+
+/**
+ * Applies cacheability to preprocess variables and their render element.
+ */
+function _vihreat_tapahtumat_apply_cacheability(array &$variables, CacheableMetadata $cacheability): void {
+  $cacheability->applyTo($variables);
+  if (isset($variables['elements']) && is_array($variables['elements'])) {
+    $cacheability->applyTo($variables['elements']);
+  }
 }

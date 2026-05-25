@@ -6,14 +6,40 @@ use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Access\AccessResultInterface;
 
 function custom_access_entity_access(EntityInterface $entity, $operation, AccountInterface $account): AccessResultInterface {
-  if ($entity->bundle() == 'event') {
-    foreach ($entity->field_event_organiser as $organiser) {
-      foreach ($organiser->entity->field_event_editors as $editor) {
-        if ($editor->entity->id() == $account->id()) {
-          return AccessResult::allowed();
-        }
+  if ($entity->bundle() !== 'event') {
+    // Not an event — no opinion. No per-user caching needed.
+    return AccessResult::neutral();
+  }
+
+  // The result depends on which user is asking AND on the event's organiser
+  // list and each organiser's editor list. Declare these dependencies so
+  // Drupal does not serve a cached 403 (or 200) to the wrong user.
+  $base = AccessResult::neutral()
+    ->cachePerUser()
+    ->addCacheTags($entity->getCacheTags());
+
+  foreach ($entity->field_event_organiser as $organiser_ref) {
+    // Organiser node may be NULL if the reference is broken (deleted node).
+    if ($organiser_ref->entity === NULL) {
+      continue;
+    }
+
+    $organiser = $organiser_ref->entity;
+
+    // Add the organiser's cache tags so access is re-evaluated if the
+    // organiser's field_event_editors list changes.
+    $base->addCacheTags($organiser->getCacheTags());
+
+    foreach ($organiser->field_event_editors ?? [] as $editor_ref) {
+      // Editor user may be NULL if the user account has been deleted.
+      if ($editor_ref->entity !== NULL && $editor_ref->entity->id() == $account->id()) {
+        return AccessResult::allowed()
+          ->cachePerUser()
+          ->addCacheTags($entity->getCacheTags())
+          ->addCacheTags($organiser->getCacheTags());
       }
     }
   }
-  return AccessResult::neutral();
+
+  return $base;
 }

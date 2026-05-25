@@ -33,12 +33,14 @@ jobs:
         if: steps.check_files.outputs.files_exists == 'true'
         run: composer validate --no-check-publish && composer install --prefer-dist --no-progress
 
+      - name: Create deployment package
+        run: zip -r "$RUNNER_TEMP/php-app.zip" . -x ".git/*" ".github/*"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: php-app
-          path: .
+          path: ${{ runner.temp }}/php-app.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -60,11 +62,18 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_EE413F4776174259B972606A5F95DBF9 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_B87D985907064EF88BF399C1FF70F8D1 }}
 
+      - name: Enable run from package
+        run: |
+          RESOURCE_GROUP="$(az webapp list --query "[?name=='vihreattapahtumat'].resourceGroup | [0]" -o tsv)"
+          az webapp config appsettings set \
+            --name vihreattapahtumat \
+            --resource-group "$RESOURCE_GROUP" \
+            --settings WEBSITE_RUN_FROM_PACKAGE=1
+
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
           app-name: 'vihreattapahtumat'
           slot-name: 'Production'
-          package: .
-          
+          package: php-app.zip

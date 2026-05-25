@@ -1167,7 +1167,7 @@ display:
       style:
         type: fullcalendar_view_display
         options:
-          default_date_source: first
+          default_date_source: now
           defaultDate: ''
           start: field_event_datetime
           end: field_event_datetime

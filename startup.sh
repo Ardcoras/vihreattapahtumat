@@ -28,7 +28,7 @@ insert_before_location_root() {
   mv "$tmp_file" "$NGINX_CONF"
 }
 
-mkdir -p "$PUBLIC_FILES_PATH"
+mkdir -p "$PUBLIC_FILES_PATH/css" "$PUBLIC_FILES_PATH/js"
 
 # Point Nginx at Drupal's public docroot inside the deployed package.
 sed -i 's|root /home/site/wwwroot;|root /home/site/wwwroot/web;|g' "$NGINX_CONF"

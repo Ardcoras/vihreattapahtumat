@@ -18,13 +18,16 @@ function custom_access_entity_access(EntityInterface $entity, $operation, Accoun
     ->cachePerUser()
     ->addCacheTags($entity->getCacheTags());
 
+  if (!method_exists($entity, 'hasField') || !$entity->hasField('field_event_organiser')) {
+    return $base;
+  }
+
   foreach ($entity->field_event_organiser as $organiser_ref) {
     // Organiser node may be NULL if the reference is broken (deleted node).
-    if ($organiser_ref->entity === NULL) {
+    $organiser = $organiser_ref->entity;
+    if (!$organiser instanceof EntityInterface || !method_exists($organiser, 'hasField') || !$organiser->hasField('field_event_editors')) {
       continue;
     }
-
-    $organiser = $organiser_ref->entity;
 
     // Add the organiser's cache tags so access is re-evaluated if the
     // organiser's field_event_editors list changes.

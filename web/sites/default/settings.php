@@ -880,6 +880,21 @@ if (isset($_ENV['HASH_SALT'])) {
 
 $settings['file_private_path'] = '../private';
 
+if (!empty($_ENV['DRUPAL_PUBLIC_FILES_PATH'])) {
+  $settings['file_public_path'] = $_ENV['DRUPAL_PUBLIC_FILES_PATH'];
+
+  if (!empty($_ENV['DRUPAL_PUBLIC_FILES_BASE_URL'])) {
+    $settings['file_public_base_url'] = $_ENV['DRUPAL_PUBLIC_FILES_BASE_URL'];
+  }
+  else {
+    $host = $_SERVER['HTTP_HOST'] ?? $_ENV['WEBSITE_HOSTNAME'] ?? '';
+    if ($host !== '') {
+      $scheme = $_SERVER['HTTP_X_FORWARDED_PROTO'] ?? (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ? 'https' : 'https');
+      $settings['file_public_base_url'] = $scheme . '://' . $host . '/sites/default/files';
+    }
+  }
+}
+
 $settings['config_sync_directory'] = '../config/sync';
 
 if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {

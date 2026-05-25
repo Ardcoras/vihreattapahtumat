@@ -68,7 +68,7 @@ jobs:
           az webapp config appsettings set \
             --name vihreattapahtumat \
             --resource-group "$RESOURCE_GROUP" \
-            --settings WEBSITE_RUN_FROM_PACKAGE=1
+            --settings WEBSITE_RUN_FROM_PACKAGE=1 SCM_DO_BUILD_DURING_DEPLOYMENT=false ENABLE_ORYX_BUILD=false DRUPAL_PUBLIC_FILES_PATH=/home/site/files
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3

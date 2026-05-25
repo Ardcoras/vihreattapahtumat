@@ -882,7 +882,7 @@ $settings['file_private_path'] = '../private';
 
 if (!empty($_ENV['DRUPAL_PUBLIC_FILES_PATH'])) {
   $settings['file_public_path'] = $_ENV['DRUPAL_PUBLIC_FILES_PATH'];
-  $settings['file_assets_path'] = $_ENV['DRUPAL_PUBLIC_FILES_PATH'];
+//  $settings['file_assets_path'] = $_ENV['DRUPAL_PUBLIC_FILES_PATH'];
 
   if (!empty($_ENV['DRUPAL_PUBLIC_FILES_BASE_URL'])) {
     $settings['file_public_base_url'] = $_ENV['DRUPAL_PUBLIC_FILES_BASE_URL'];

@@ -51,7 +51,12 @@ if ! grep -Fq 'location ^~ /sites/default/files/' "$NGINX_CONF"; then
             return 403;
         }
         alias ${PUBLIC_FILES_PATH%/}/;
-        try_files \$uri /index.php?\$query_string;
+        try_files \$uri @drupal_public_files;
+    }
+
+    location @drupal_public_files {
+        rewrite ^/sites/default/files/(css|js)/(.*)\$ ${PUBLIC_FILES_PATH%/}/\$1/\$2 last;
+        rewrite ^ /index.php?\$query_string last;
     }
 EOF
   insert_before_location_root "$public_files_snippet"

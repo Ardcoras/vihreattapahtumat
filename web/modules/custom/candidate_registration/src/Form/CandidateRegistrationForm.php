@@ -79,6 +79,17 @@ final class CandidateRegistrationForm extends FormBase {
         'class' => ['btn-secondary'],
       ],
     ];
+    if ($registration) {
+      $form['actions']['delete'] = [
+        '#type' => 'submit',
+        '#value' => $this->t('Remove registration'),
+        '#name' => 'delete_registration',
+        '#submit' => ['::deleteRegistration'],
+        '#attributes' => [
+          'class' => ['candidate-registration-control__remove'],
+        ],
+      ];
+    }
 
     return $form;
   }
@@ -95,7 +106,10 @@ final class CandidateRegistrationForm extends FormBase {
     }
 
     $registration = $this->manager->loadRegistration($event, $candidate);
-    $operation = $registration ? 'edit' : 'add';
+    $trigger = $form_state->getTriggeringElement();
+    $operation = ($trigger['#name'] ?? '') === 'delete_registration'
+      ? 'delete'
+      : ($registration ? 'edit' : 'add');
     if (!$this->manager->access($event, $candidate, $operation, $this->currentUser())->isAllowed()) {
       $form_state->setErrorByName('candidate_id', $this->t('You are not allowed to manage this registration.'));
     }
@@ -123,6 +137,25 @@ final class CandidateRegistrationForm extends FormBase {
     $registration->save();
 
     $this->messenger()->addStatus($this->t('Candidate registration saved.'));
+    $form_state->setRedirect('entity.node.canonical', ['node' => $event->id()]);
+  }
+
+  /**
+   * Removes an existing candidate registration.
+   */
+  public function deleteRegistration(array &$form, FormStateInterface $form_state): void {
+    $event = $this->entityTypeManager->getStorage('node')->load((int) $form_state->getValue('event_id'));
+    $candidate = $this->entityTypeManager->getStorage('node')->load((int) $form_state->getValue('candidate_id'));
+    if (!$event instanceof NodeInterface || !$candidate instanceof NodeInterface) {
+      return;
+    }
+
+    $registration = $this->manager->loadRegistration($event, $candidate);
+    if ($registration) {
+      $registration->delete();
+      $this->messenger()->addStatus($this->t('Candidate registration removed.'));
+    }
+
     $form_state->setRedirect('entity.node.canonical', ['node' => $event->id()]);
   }
 

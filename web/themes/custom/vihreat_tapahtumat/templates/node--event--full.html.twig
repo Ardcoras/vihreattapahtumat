@@ -70,9 +70,6 @@
             {% for item in candidate_registration_forms %}
               <div class="candidate-registration-control">
                 {{ item.form }}
-                {% if item.delete_url %}
-                  <a href="{{ item.delete_url }}" class="candidate-registration-control__remove">{{ 'Poista ilmoittautuminen'|t }}</a>
-                {% endif %}
               </div>
             {% endfor %}
           </div>

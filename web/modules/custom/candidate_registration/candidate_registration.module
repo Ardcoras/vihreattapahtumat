@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 use Drupal\candidate_registration\CandidateRegistrationInterface;
 use Drupal\Component\Utility\Html;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Entity\Element\EntityAutocomplete;
 use Drupal\Core\Entity\EntityInterface;
@@ -38,6 +39,33 @@ function candidate_registration_entity_presave(EntityInterface $entity): void {
 
   if ($query->execute()) {
     throw new EntityStorageException('A candidate can only be registered once for the same event.');
+  }
+}
+
+/**
+ * Implements hook_entity_insert().
+ */
+function candidate_registration_entity_insert(EntityInterface $entity): void {
+  if ($entity instanceof CandidateRegistrationInterface) {
+    Cache::invalidateTags(['candidate_registration_list']);
+  }
+}
+
+/**
+ * Implements hook_entity_update().
+ */
+function candidate_registration_entity_update(EntityInterface $entity): void {
+  if ($entity instanceof CandidateRegistrationInterface) {
+    Cache::invalidateTags(['candidate_registration_list']);
+  }
+}
+
+/**
+ * Implements hook_entity_delete().
+ */
+function candidate_registration_entity_delete(EntityInterface $entity): void {
+  if ($entity instanceof CandidateRegistrationInterface) {
+    Cache::invalidateTags(['candidate_registration_list']);
   }
 }
 
@@ -214,12 +242,6 @@ function candidate_registration_preprocess_node(array &$variables): void {
           $candidate,
           $registration ? 'edit' : 'add',
         ),
-        'delete_url' => $registration
-          ? \Drupal\Core\Url::fromRoute('candidate_registration.delete', [
-            'node' => $node->id(),
-            'candidate' => $candidate->id(),
-          ])->toString()
-          : '',
       ];
       $cacheability->addCacheableDependency($candidate);
       if ($registration) {

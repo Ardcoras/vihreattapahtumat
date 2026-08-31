@@ -208,9 +208,15 @@
 }
 
 .candidate-registration-control__remove {
+  background: transparent;
+  border: 0;
+  color: var(--green);
+  cursor: pointer;
   display: inline-block;
   font-size: 13px;
   margin-top: 8px;
+  padding: 0;
+  text-decoration: underline;
 }
 
 /* Sidebar cards */

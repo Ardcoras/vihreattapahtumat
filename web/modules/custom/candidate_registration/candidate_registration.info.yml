@@ -1,0 +1,10 @@
+name: Candidate registration
+type: module
+description: Allows candidates and candidate maintainers to register candidates for events.
+core_version_requirement: ^11
+package: Custom
+dependencies:
+  - drupal:node
+  - drupal:user
+  - drupal:text
+

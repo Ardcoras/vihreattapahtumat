@@ -1,0 +1,24 @@
+uuid: d477058b-ab6f-4cbb-b9bb-56167d6e9172
+langcode: fi
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_candidate_url
+    - node.type.candidate
+  module:
+    - link
+id: node.candidate.field_candidate_url
+field_name: field_candidate_url
+entity_type: node
+bundle: candidate
+label: Verkkosivu
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 0
+  link_type: 17
+field_type: link
+

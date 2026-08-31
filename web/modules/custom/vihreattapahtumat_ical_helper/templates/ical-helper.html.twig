@@ -42,6 +42,18 @@
     </div>
     {% endif %}
 
+    {% if candidates %}
+    <div class="ical-helper__group">
+      <label for="ical-filter-candidate" class="ical-helper__label">Ehdokas</label>
+      <select id="ical-filter-candidate" class="ical-helper__select" data-param="candidate">
+        <option value="">— Kaikki ehdokkaat —</option>
+        {% for item in candidates %}
+          <option value="{{ item.id }}">{{ item.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    {% endif %}
+
   </div>
 
   <div class="ical-helper__result">

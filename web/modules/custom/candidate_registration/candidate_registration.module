@@ -1,0 +1,232 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @file
+ * Candidate registration hooks.
+ */
+
+use Drupal\candidate_registration\CandidateRegistrationInterface;
+use Drupal\Component\Utility\Html;
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Entity\Element\EntityAutocomplete;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityStorageException;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_entity_presave().
+ */
+function candidate_registration_entity_presave(EntityInterface $entity): void {
+  if (!$entity instanceof CandidateRegistrationInterface) {
+    return;
+  }
+
+  $query = \Drupal::entityTypeManager()
+    ->getStorage('candidate_registration')
+    ->getQuery()
+    ->condition('event', $entity->get('event')->target_id)
+    ->condition('candidate', $entity->get('candidate')->target_id)
+    ->accessCheck(FALSE)
+    ->range(0, 1);
+
+  if (!$entity->isNew()) {
+    $query->condition('id', $entity->id(), '<>');
+  }
+
+  if ($query->execute()) {
+    throw new EntityStorageException('A candidate can only be registered once for the same event.');
+  }
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter() for node forms.
+ */
+function candidate_registration_form_node_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  $node = $form_state->getFormObject()->getEntity();
+  if (!$node instanceof NodeInterface || $node->getType() !== 'event') {
+    return;
+  }
+
+  $account = \Drupal::currentUser();
+  $event_access_operation = $node->isNew() ? 'create' : 'update';
+  if (!$node->access($event_access_operation, $account) && !$account->hasPermission('administer candidate registrations')) {
+    return;
+  }
+
+  $manager = \Drupal::service('candidate_registration.manager');
+  $registrations = $node->isNew() ? [] : $manager->loadRegistrationsForEvent($node);
+
+  $form['candidate_registrations'] = [
+    '#type' => 'details',
+    '#title' => t('Candidate registrations'),
+    '#open' => TRUE,
+    '#tree' => TRUE,
+    '#weight' => 52,
+  ];
+
+  if ($registrations) {
+    $form['candidate_registrations']['existing'] = [
+      '#type' => 'table',
+      '#header' => [t('Candidate'), t('Note'), t('Remove')],
+    ];
+
+    foreach ($registrations as $registration) {
+      $candidate = $registration->get('candidate')->entity;
+      if (!$candidate instanceof NodeInterface) {
+        continue;
+      }
+
+      $id = (int) $registration->id();
+      $form['candidate_registrations']['existing'][$id]['candidate'] = [
+        '#markup' => Html::escape($candidate->label()),
+      ];
+      $form['candidate_registrations']['existing'][$id]['note'] = [
+        '#type' => 'textarea',
+        '#title' => t('Note for @candidate', ['@candidate' => $candidate->label()]),
+        '#title_display' => 'invisible',
+        '#default_value' => (string) $registration->get('note')->value,
+        '#rows' => 2,
+        '#maxlength' => 2000,
+      ];
+      $form['candidate_registrations']['existing'][$id]['remove'] = [
+        '#type' => 'checkbox',
+        '#title' => t('Remove @candidate', ['@candidate' => $candidate->label()]),
+        '#title_display' => 'invisible',
+      ];
+    }
+  }
+
+  $form['candidate_registrations']['new_candidate'] = [
+    '#type' => 'entity_autocomplete',
+    '#title' => t('Add candidate'),
+    '#target_type' => 'node',
+    '#selection_settings' => [
+      'target_bundles' => ['candidate'],
+    ],
+  ];
+  $form['candidate_registrations']['new_note'] = [
+    '#type' => 'textarea',
+    '#title' => t('New candidate note'),
+    '#rows' => 2,
+    '#maxlength' => 2000,
+  ];
+
+  $form['actions']['submit']['#submit'][] = 'candidate_registration_event_form_submit';
+}
+
+/**
+ * Saves registration edits from the event edit form.
+ */
+function candidate_registration_event_form_submit(array &$form, FormStateInterface $form_state): void {
+  $event = $form_state->getFormObject()->getEntity();
+  if (!$event instanceof NodeInterface || $event->getType() !== 'event' || $event->isNew()) {
+    return;
+  }
+
+  $storage = \Drupal::entityTypeManager()->getStorage('candidate_registration');
+
+  foreach ((array) $form_state->getValue(['candidate_registrations', 'existing']) as $id => $values) {
+    $registration = $storage->load((int) $id);
+    if (!$registration instanceof CandidateRegistrationInterface) {
+      continue;
+    }
+    if (!empty($values['remove'])) {
+      $registration->delete();
+      continue;
+    }
+    $registration->set('note', trim((string) ($values['note'] ?? '')));
+    $registration->save();
+  }
+
+  $candidate_input = $form_state->getValue(['candidate_registrations', 'new_candidate']);
+  if ($candidate_input) {
+    $candidate_id = is_numeric($candidate_input)
+      ? (int) $candidate_input
+      : EntityAutocomplete::extractEntityIdFromAutocompleteInput((string) $candidate_input);
+    $candidate = \Drupal::entityTypeManager()->getStorage('node')->load($candidate_id);
+    if ($candidate instanceof NodeInterface && $candidate->getType() === 'candidate' && $candidate->isPublished()) {
+      $manager = \Drupal::service('candidate_registration.manager');
+      $registration = $manager->loadRegistration($event, $candidate);
+      if (!$registration) {
+        $registration = $storage->create([
+          'event' => $event->id(),
+          'candidate' => $candidate->id(),
+        ]);
+      }
+      $registration->set('note', trim((string) $form_state->getValue(['candidate_registrations', 'new_note'])));
+      $registration->save();
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_node().
+ */
+function candidate_registration_preprocess_node(array &$variables): void {
+  $node = $variables['node'] ?? NULL;
+  if (!$node instanceof NodeInterface || $node->getType() !== 'event') {
+    return;
+  }
+
+  $manager = \Drupal::service('candidate_registration.manager');
+  $registrations = $manager->loadRegistrationsForEvent($node);
+  $cacheability = CacheableMetadata::createFromObject($node)
+    ->addCacheTags(['candidate_registration_list'])
+    ->addCacheContexts(['user', 'user.permissions']);
+
+  $variables['candidate_registrations'] = [];
+  foreach ($registrations as $registration) {
+    $candidate = $registration->get('candidate')->entity;
+    if (!$candidate instanceof NodeInterface || $candidate->getType() !== 'candidate' || !$candidate->isPublished()) {
+      continue;
+    }
+
+    $cacheability->addCacheableDependency($registration);
+    $cacheability->addCacheableDependency($candidate);
+
+    $url = '';
+    if ($candidate->hasField('field_candidate_url') && !$candidate->get('field_candidate_url')->isEmpty()) {
+      $url = (string) $candidate->get('field_candidate_url')->first()->getUrl()->toString();
+    }
+
+    $variables['candidate_registrations'][] = [
+      'candidate_id' => (int) $candidate->id(),
+      'name' => $candidate->label(),
+      'url' => $url,
+      'note' => (string) $registration->get('note')->value,
+    ];
+  }
+
+  if ($variables['view_mode'] === 'full') {
+    $form_builder = \Drupal::formBuilder();
+    $account = \Drupal::currentUser();
+    $variables['candidate_registration_forms'] = [];
+    foreach ($manager->loadCandidatesForMaintainer($account) as $candidate) {
+      $registration = $manager->loadRegistration($node, $candidate);
+      $variables['candidate_registration_forms'][] = [
+        'candidate' => $candidate->label(),
+        'form' => $form_builder->getForm(
+          'Drupal\candidate_registration\Form\CandidateRegistrationForm',
+          $node,
+          $candidate,
+          $registration ? 'edit' : 'add',
+        ),
+        'delete_url' => $registration
+          ? \Drupal\Core\Url::fromRoute('candidate_registration.delete', [
+            'node' => $node->id(),
+            'candidate' => $candidate->id(),
+          ])->toString()
+          : '',
+      ];
+      $cacheability->addCacheableDependency($candidate);
+      if ($registration) {
+        $cacheability->addCacheableDependency($registration);
+      }
+    }
+  }
+
+  $cacheability->applyTo($variables);
+}

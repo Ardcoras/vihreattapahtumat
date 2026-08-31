@@ -81,6 +81,44 @@
   margin-bottom: 0;
 }
 
+.event-candidates {
+  margin-top: 32px;
+}
+
+.event-candidates__title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 14px;
+  color: var(--ink);
+}
+
+.event-candidates__list {
+  display: grid;
+  gap: 10px;
+}
+
+.event-candidate {
+  border-left: 3px solid var(--green);
+  padding: 8px 0 8px 14px;
+}
+
+.event-candidate__name {
+  color: var(--green);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.event-candidate__name:hover {
+  text-decoration: underline;
+}
+
+.event-candidate__note {
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.5;
+  margin-top: 3px;
+}
+
 /* ── SIDEBAR ────────────────────────────────────────────── */
 
 .event-sidebar {
@@ -148,6 +186,28 @@
   border-color: var(--green-mid);
   color: var(--green);
   text-decoration: none;
+}
+
+.candidate-registration-control + .candidate-registration-control {
+  border-top: 1px solid var(--border);
+  margin-top: 16px;
+  padding-top: 16px;
+}
+
+.candidate-registration-control h4 {
+  font-size: 14px;
+  margin: 0 0 8px;
+}
+
+.candidate-registration-control textarea {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.candidate-registration-control__remove {
+  display: inline-block;
+  font-size: 13px;
+  margin-top: 8px;
 }
 
 /* Sidebar cards */

@@ -1,0 +1,12 @@
+uuid: fd3e7950-cc0f-4d32-9f41-339a4a89f9ff
+langcode: fi
+status: true
+dependencies:
+  config:
+    - node.type.candidate
+id: node.candidate
+target_entity_type_id: node
+target_bundle: candidate
+default_langcode: site_default
+language_alterable: false
+

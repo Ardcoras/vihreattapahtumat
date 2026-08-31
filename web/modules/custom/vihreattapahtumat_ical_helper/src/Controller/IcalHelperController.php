@@ -15,6 +15,7 @@ class IcalHelperController extends ControllerBase {
       '#municipalities' => $this->loadTermOptions('municipality'),
       '#regions' => $this->loadTermOptions('region'),
       '#organisers' => $this->loadOrganiserOptions(),
+      '#candidates' => $this->loadCandidateOptions(),
       '#feed_base' => Url::fromRoute('ical', [], ['absolute' => TRUE])->toString(),
       '#attached' => ['library' => ['vihreattapahtumat_ical_helper/helper']],
       '#cache' => [
@@ -22,6 +23,7 @@ class IcalHelperController extends ControllerBase {
           'taxonomy_term_list:municipality',
           'taxonomy_term_list:region',
           'node_list:organisation',
+          'node_list:candidate',
         ],
       ],
     ];
@@ -62,6 +64,22 @@ class IcalHelperController extends ControllerBase {
       if ($id !== NULL && $id !== '') {
         $options[] = ['id' => $id, 'name' => $node->label()];
       }
+    }
+    return $options;
+  }
+
+  private function loadCandidateOptions(): array {
+    $storage = $this->entityTypeManager()->getStorage('node');
+    $nids = $storage->getQuery()
+      ->condition('type', 'candidate')
+      ->condition('status', 1)
+      ->accessCheck(FALSE)
+      ->sort('title')
+      ->execute();
+
+    $options = [];
+    foreach ($storage->loadMultiple($nids) as $node) {
+      $options[] = ['id' => $node->id(), 'name' => $node->label()];
     }
     return $options;
   }

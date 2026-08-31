@@ -1,0 +1,20 @@
+uuid: a77a98ed-52f0-46af-a736-2c8a282b9a35
+langcode: fi
+status: true
+dependencies:
+  module:
+    - link
+    - node
+id: node.field_candidate_url
+field_name: field_candidate_url
+entity_type: node
+type: link
+settings: {  }
+module: link
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
+

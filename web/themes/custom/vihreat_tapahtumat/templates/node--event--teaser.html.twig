@@ -22,6 +22,16 @@
 
       <div class="event-card__title">{{ node.label }}</div>
 
+      {% if candidate_registrations is defined and candidate_registrations %}
+        <div class="event-card__candidates">
+          {% for registration in candidate_registrations %}
+            <span class="event-card__candidate">
+              {{ registration.name }}{% if registration.note %}: {{ registration.note }}{% endif %}
+            </span>
+          {% endfor %}
+        </div>
+      {% endif %}
+
       <div class="event-card__meta">
         {% if not node.field_event_organiser.isEmpty %}
           <span class="event-card__meta-item">

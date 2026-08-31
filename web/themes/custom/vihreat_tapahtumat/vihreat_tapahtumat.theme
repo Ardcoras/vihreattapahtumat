@@ -352,6 +352,7 @@ function _vihreat_tapahtumat_build_event_rows(string $field, int $value, bool $p
       'type_label' => $node->field_event_type->entity?->label(),
       'organiser' => NULL,
       'place' => NULL,
+      'candidates' => [],
     ];
 
     if (!$node->field_event_datetime->isEmpty()) {
@@ -389,6 +390,23 @@ function _vihreat_tapahtumat_build_event_rows(string $field, int $value, bool $p
       $place = $node->field_place->entity;
       _vihreat_tapahtumat_add_entity_cacheability($cacheability, $place);
       $row['place'] = $place?->label();
+    }
+
+    if (\Drupal::moduleHandler()->moduleExists('candidate_registration')) {
+      $cacheability->addCacheTags(['candidate_registration_list']);
+      $registrations = \Drupal::service('candidate_registration.manager')->loadRegistrationsForEvent($node);
+      foreach ($registrations as $registration) {
+        $candidate = $registration->get('candidate')->entity;
+        if (!$candidate instanceof NodeInterface || $candidate->getType() !== 'candidate' || !$candidate->isPublished()) {
+          continue;
+        }
+        $cacheability->addCacheableDependency($registration);
+        $cacheability->addCacheableDependency($candidate);
+        $row['candidates'][] = [
+          'name' => $candidate->label(),
+          'note' => (string) $registration->get('note')->value,
+        ];
+      }
     }
 
     $rows[] = $row;

@@ -29,6 +29,26 @@
           {{ node.field_description.processed }}
         </div>
       {% endif %}
+
+      {% if candidate_registrations is defined and candidate_registrations %}
+        <section class="event-candidates">
+          <h2 class="event-candidates__title">{{ 'Ehdokkaat'|t }}</h2>
+          <div class="event-candidates__list">
+            {% for registration in candidate_registrations %}
+              <div class="event-candidate">
+                {% if registration.url %}
+                  <a href="{{ registration.url }}" class="event-candidate__name">{{ registration.name }}</a>
+                {% else %}
+                  <span class="event-candidate__name">{{ registration.name }}</span>
+                {% endif %}
+                {% if registration.note %}
+                  <div class="event-candidate__note">{{ registration.note }}</div>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+        </section>
+      {% endif %}
     </div>
 
     <aside class="event-sidebar">
@@ -42,6 +62,22 @@
           {{ 'Lisää kalenteriini'|t }}
         </a>
       </div>
+
+      {% if candidate_registration_forms is defined and candidate_registration_forms %}
+        <div class="sidebar-card">
+          <div class="sidebar-card__header">{{ 'Oma ehdokasilmoittautuminen'|t }}</div>
+          <div class="sidebar-card__body">
+            {% for item in candidate_registration_forms %}
+              <div class="candidate-registration-control">
+                {{ item.form }}
+                {% if item.delete_url %}
+                  <a href="{{ item.delete_url }}" class="candidate-registration-control__remove">{{ 'Poista ilmoittautuminen'|t }}</a>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
 
 
 <div class="sidebar-card">

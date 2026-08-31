@@ -300,6 +300,19 @@
   text-overflow: ellipsis;
 }
 
+.event-row__candidates {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 4px;
+}
+
+.event-row__candidate {
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
 /* Right column: badge + arrow */
 .event-row__right {
   display: flex;

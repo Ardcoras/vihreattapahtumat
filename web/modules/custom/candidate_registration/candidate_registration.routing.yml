@@ -1,0 +1,46 @@
+candidate_registration.add:
+  path: '/event/{node}/candidate/{candidate}/register'
+  defaults:
+    _form: '\Drupal\candidate_registration\Form\CandidateRegistrationForm'
+    operation: 'add'
+  requirements:
+    _candidate_registration_access: 'add'
+    node: \d+
+    candidate: \d+
+  options:
+    parameters:
+      node:
+        type: entity:node
+      candidate:
+        type: entity:node
+
+candidate_registration.edit:
+  path: '/event/{node}/candidate/{candidate}/registration/edit'
+  defaults:
+    _form: '\Drupal\candidate_registration\Form\CandidateRegistrationForm'
+    operation: 'edit'
+  requirements:
+    _candidate_registration_access: 'edit'
+    node: \d+
+    candidate: \d+
+  options:
+    parameters:
+      node:
+        type: entity:node
+      candidate:
+        type: entity:node
+
+candidate_registration.delete:
+  path: '/event/{node}/candidate/{candidate}/registration/delete'
+  defaults:
+    _form: '\Drupal\candidate_registration\Form\CandidateRegistrationDeleteForm'
+  requirements:
+    _candidate_registration_access: 'delete'
+    node: \d+
+    candidate: \d+
+  options:
+    parameters:
+      node:
+        type: entity:node
+      candidate:
+        type: entity:node

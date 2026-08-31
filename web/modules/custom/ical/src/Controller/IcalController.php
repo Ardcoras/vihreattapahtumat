@@ -74,10 +74,12 @@ class IcalController implements ContainerInjectionInterface {
       ->accessCheck(FALSE);
 
     $conditions = $query->orConditionGroup();
+    $has_optional_filter = FALSE;
 
     $organiser = (int) $request->query->get('organiser');
     if (!empty($organiser)) {
       $conditions->condition('field_event_organiser.entity:node.field_official_id', $organiser);
+      $has_optional_filter = TRUE;
     }
 
     $city = $request->query->get('city');
@@ -86,6 +88,7 @@ class IcalController implements ContainerInjectionInterface {
         ->condition('field_place.entity:taxonomy_term.field_official_id', $city)
         ->condition('field_place.entity:taxonomy_term.field_municipality.entity:taxonomy_term.field_official_id', $city);
       $conditions->condition($city_group);
+      $has_optional_filter = TRUE;
     }
 
     $region = $request->query->get('region');
@@ -94,14 +97,33 @@ class IcalController implements ContainerInjectionInterface {
         ->condition('field_place.entity:taxonomy_term.field_regions.entity:taxonomy_term.field_official_id', $region)
         ->condition('field_place.entity:taxonomy_term.field_municipality.entity:taxonomy_term.field_regions.entity:taxonomy_term.field_official_id', $region);
       $conditions->condition($region_group);
+      $has_optional_filter = TRUE;
     }
 
-    $query->condition($conditions);
-    $nodes = $storage->loadMultiple($query->execute());
+    if ($has_optional_filter) {
+      $query->condition($conditions);
+    }
+    $event_ids = $query->execute();
+
+    $candidate_registration_by_event = [];
+    $candidate = NULL;
+    $candidate_id = (int) $request->query->get('candidate');
+    if ($candidate_id && \Drupal::moduleHandler()->moduleExists('candidate_registration')) {
+      $candidate = $storage->load($candidate_id);
+      if (!$candidate instanceof NodeInterface || $candidate->getType() !== 'candidate' || !$candidate->isPublished()) {
+        throw new NotFoundHttpException();
+      }
+      $event_ids = \Drupal::service('candidate_registration.manager')
+        ->loadEventIdsForCandidate($candidate, array_map('intval', $event_ids));
+      $candidate_registration_by_event = \Drupal::service('candidate_registration.manager')
+        ->loadRegistrationsForCandidateByEvent($candidate, array_map('intval', $event_ids));
+    }
+
+    $nodes = $storage->loadMultiple($event_ids);
 
     $events = [];
     foreach ($nodes as $node) {
-      $events[] = $this->buildEvent($node);
+      $events[] = $this->buildEvent($node, $candidate_registration_by_event[(int) $node->id()] ?? NULL);
     }
 
     $calendar = new Calendar($events);
@@ -115,7 +137,7 @@ class IcalController implements ContainerInjectionInterface {
   /**
    * Builds an iCal Event entity from a node.
    */
-  private function buildEvent(NodeInterface $node): Event {
+  private function buildEvent(NodeInterface $node, mixed $candidate_registration = NULL): Event {
     $event = new Event(new UniqueIdentifier($node->uuid->getString()));
 
     if ($node->field_event_type->entity) {
@@ -126,7 +148,14 @@ class IcalController implements ContainerInjectionInterface {
 
     $description_values = $node->field_description->getValue();
     if (!empty($description_values[0]['value'])) {
-      $event->setDescription(strip_tags((string) $description_values[0]['value']));
+      $description = strip_tags((string) $description_values[0]['value']);
+      if ($candidate_registration && $candidate_registration->hasField('note') && !$candidate_registration->get('note')->isEmpty()) {
+        $description .= "\n\n" . (string) $candidate_registration->get('note')->value;
+      }
+      $event->setDescription($description);
+    }
+    elseif ($candidate_registration && $candidate_registration->hasField('note') && !$candidate_registration->get('note')->isEmpty()) {
+      $event->setDescription((string) $candidate_registration->get('note')->value);
     }
 
     $location_parts = [];

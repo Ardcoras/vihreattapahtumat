@@ -1,0 +1,31 @@
+uuid: 232a1f5d-904d-4bbb-86e3-ce409e655116
+langcode: fi
+status: true
+dependencies:
+  config:
+    - field.field.node.candidate.field_candidate_maintainers
+    - field.field.node.candidate.field_candidate_url
+    - node.type.candidate
+  module:
+    - link
+id: node.candidate.default
+targetEntityType: node
+bundle: candidate
+mode: default
+content:
+  field_candidate_url:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_candidate_maintainers: true
+  links: true
+

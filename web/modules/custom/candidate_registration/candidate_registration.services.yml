@@ -1,0 +1,11 @@
+services:
+  candidate_registration.manager:
+    class: Drupal\candidate_registration\CandidateRegistrationManager
+    arguments: ['@entity_type.manager']
+
+  candidate_registration.access_check:
+    class: Drupal\candidate_registration\Access\RegistrationAccessCheck
+    arguments: ['@candidate_registration.manager']
+    tags:
+      - { name: access_check, applies_to: _candidate_registration_access }
+

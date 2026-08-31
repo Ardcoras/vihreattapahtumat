@@ -1,0 +1,23 @@
+uuid: cd6bf658-c288-48d2-9291-21fa30f0a651
+langcode: fi
+status: true
+dependencies:
+  config:
+    - node.type.candidate
+id: node.candidate.promote
+field_name: promote
+entity_type: node
+bundle: candidate
+label: 'Promoted to front page'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: On
+  off_label: Off
+field_type: boolean
+

@@ -1,7 +1,9 @@
 _core:
   default_config_hash: 4GIX5Esnc_umpXUBj4IIocRX7Mt5fPhm4AgXfE3E56E
 module:
+  breakpoint: 0
   block: 0
+  candidate_registration: 0
   ckeditor5: 0
   config: 0
   contextual: 0
@@ -41,6 +43,7 @@ module:
   redirect: 0
   system: 0
   taxonomy: 0
+  toolbar: 0
   term_merge: 0
   term_reference_change: 0
   text: 0

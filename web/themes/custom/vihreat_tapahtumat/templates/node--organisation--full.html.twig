@@ -36,6 +36,13 @@
                   {% if ev.time_text and ev.place %} · {% endif %}
                   {{- ev.place -}}
                 </div>
+                {% if ev.candidates %}
+                  <div class="event-row__candidates">
+                    {% for candidate in ev.candidates %}
+                      <span class="event-row__candidate">{{ candidate.name }}{% if candidate.note %}: {{ candidate.note }}{% endif %}</span>
+                    {% endfor %}
+                  </div>
+                {% endif %}
               </div>
               <div class="event-row__right">
                 {% if ev.type_label %}
@@ -73,6 +80,13 @@
                   {% if ev.time_text and ev.place %} · {% endif %}
                   {{- ev.place -}}
                 </div>
+                {% if ev.candidates %}
+                  <div class="event-row__candidates">
+                    {% for candidate in ev.candidates %}
+                      <span class="event-row__candidate">{{ candidate.name }}{% if candidate.note %}: {{ candidate.note }}{% endif %}</span>
+                    {% endfor %}
+                  </div>
+                {% endif %}
               </div>
               <div class="event-row__right">
                 {% if ev.type_label %}

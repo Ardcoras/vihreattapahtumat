@@ -427,6 +427,18 @@
   line-height: 1.35;
 }
 
+.event-card__candidates {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.event-card__candidate {
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
 .event-card__meta {
   display: flex;
   flex-direction: column;

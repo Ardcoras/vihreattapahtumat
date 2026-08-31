@@ -32,7 +32,7 @@
 
       {% if candidate_registrations is defined and candidate_registrations %}
         <section class="event-candidates">
-          <h2 class="event-candidates__title">{{ 'Ehdokkaat'|t }}</h2>
+          <h2 class="event-candidates__title">{{ 'Candidates present'|t }}</h2>
           <div class="event-candidates__list">
             {% for registration in candidate_registrations %}
               <div class="event-candidate">
@@ -65,7 +65,7 @@
 
       {% if candidate_registration_forms is defined and candidate_registration_forms %}
         <div class="sidebar-card">
-          <div class="sidebar-card__header">{{ 'Oma ehdokasilmoittautuminen'|t }}</div>
+          <div class="sidebar-card__header">{{ 'My registration'|t }}</div>
           <div class="sidebar-card__body">
             {% for item in candidate_registration_forms %}
               <div class="candidate-registration-control">

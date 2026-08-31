@@ -58,7 +58,7 @@ final class CandidateRegistrationForm extends FormBase {
     ];
 
     $form['candidate_label'] = [
-      '#markup' => '<h4>' . $this->t('@candidate', ['@candidate' => $candidate->label()]) . '</h4>',
+      '#markup' => '<h4>' . $this->t('Candidate: @candidate', ['@candidate' => $candidate->label()]) . '</h4>',
     ];
 
     $form['note'] = [
@@ -75,6 +75,9 @@ final class CandidateRegistrationForm extends FormBase {
     $form['actions']['submit'] = [
       '#type' => 'submit',
       '#value' => $registration ? $this->t('Update registration') : $this->t('Register candidate'),
+      '#attributes' => [
+        'class' => ['btn-secondary'],
+      ],
     ];
 
     return $form;

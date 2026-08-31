@@ -176,6 +176,9 @@
   padding: 10px 20px;
   border-radius: var(--radius);
   border: 1.5px solid var(--border);
+  box-sizing: border-box;
+  cursor: pointer;
+  font-family: inherit;
   text-decoration: none;
   transition: background 0.15s, border-color 0.15s;
   width: 100%;

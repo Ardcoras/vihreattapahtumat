@@ -20,7 +20,19 @@
           <div class="site-header__nav-separator" aria-hidden="true"></div>
         {% endif %}
         <div class="site-header__account-link">
-          {{ page.secondary_menu }}
+          {% if header_account.is_authenticated %}
+            <details class="site-header__account-menu">
+              <summary class="site-header__account-summary">
+                <span class="site-header__account-name">{{ header_account.name }}</span>
+              </summary>
+              <div class="site-header__account-dropdown">
+                <a href="{{ header_account.profile_url }}">{{ 'Profile'|t }}</a>
+                <a href="{{ header_account.logout_url }}">{{ 'Log out'|t }}</a>
+              </div>
+            </details>
+          {% else %}
+            <a class="site-header__login-link" href="{{ header_account.login_url }}">{{ 'Log in'|t }}</a>
+          {% endif %}
         </div>
       </div>
     </nav>

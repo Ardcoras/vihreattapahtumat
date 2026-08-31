@@ -17,6 +17,25 @@ use Drupal\taxonomy\TermInterface;
  */
 function vihreat_tapahtumat_preprocess_page(&$variables) {
   $suppress = FALSE;
+  $account = \Drupal::currentUser();
+
+  $variables['header_account'] = [
+    'is_authenticated' => $account->isAuthenticated(),
+    'name' => $account->getDisplayName(),
+    'profile_url' => '',
+    'logout_url' => '',
+    'login_url' => \Drupal\Core\Url::fromRoute('user.login')->toString(),
+  ];
+
+  if ($account->isAuthenticated()) {
+    $variables['header_account']['profile_url'] = \Drupal\Core\Url::fromRoute('entity.user.canonical', [
+      'user' => $account->id(),
+    ])->toString();
+    $variables['header_account']['logout_url'] = \Drupal\Core\Url::fromRoute('user.logout')->toString();
+    $variables['#cache']['contexts'][] = 'session';
+  }
+
+  $variables['#cache']['contexts'][] = 'user';
 
   $node = \Drupal::routeMatch()->getParameter('node');
   if ($node instanceof NodeInterface) {

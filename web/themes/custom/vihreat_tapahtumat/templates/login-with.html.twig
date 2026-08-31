@@ -1,0 +1,20 @@
+{% set module = 'social-auth' %}
+
+{{ attach_library('social_auth/auth-icons') }}
+
+{% if networks %}
+  <div class="social-auth-buttons">
+    {% for id, network in networks %}
+      {% set network_name = network.getPluginDefinition.social_network %}
+      {% if destination %}
+        {% set options = {'query': {'destination': destination}} %}
+      {% else %}
+        {% set options = {} %}
+      {% endif %}
+      <a class="{{ module }} auth-link social-auth-button" href="{{ network.getRedirectUrl(options).toString }}" aria-label="{{ 'Log in with @social_network_name'|t({'@social_network_name': network_name}) }}">
+        <img class="{{ module }} auth-icon social-auth-button__icon" src="{{ network.getProviderLogoPath }}" alt="">
+        <span class="social-auth-button__label">{{ 'Kirjaudu palvelulla @social_network_name'|t({'@social_network_name': network_name}) }}</span>
+      </a>
+    {% endfor %}
+  </div>
+{% endif %}

@@ -898,6 +898,13 @@ if (!empty($_ENV['DRUPAL_PUBLIC_FILES_PATH'])) {
 
 $settings['config_sync_directory'] = '../config/sync';
 
+if (!empty($_ENV['GOOGLE_CLIENT_ID'])) {
+  $config['social_auth_google.settings']['client_id'] = $_ENV['GOOGLE_CLIENT_ID'];
+}
+if (!empty($_ENV['GOOGLE_CLIENT_SECRET'])) {
+  $config['social_auth_google.settings']['client_secret'] = $_ENV['GOOGLE_CLIENT_SECRET'];
+}
+
 if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
   include $app_root . '/' . $site_path . '/settings.local.php';
 }

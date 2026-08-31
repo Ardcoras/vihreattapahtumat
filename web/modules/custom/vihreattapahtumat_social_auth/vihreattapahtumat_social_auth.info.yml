@@ -1,0 +1,7 @@
+name: Vihreät Tapahtumat Social Auth
+type: module
+description: 'Project-specific Social Auth behavior.'
+core_version_requirement: ^10 || ^11
+package: Custom
+dependencies:
+  - social_auth:social_auth

@@ -29,6 +29,7 @@
         "drupal/optional_end_date": "^1.4",
         "drupal/pathauto": "^1.14",
         "drupal/redirect": "^1.12",
+        "drupal/social_auth_google": "^4.0",
         "drupal/term_merge": "^2.0",
         "drupal/term_reference_change": "^2@beta",
         "drush/drush": "^13.6",

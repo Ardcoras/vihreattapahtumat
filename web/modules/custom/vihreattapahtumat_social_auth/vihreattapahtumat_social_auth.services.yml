@@ -1,0 +1,12 @@
+services:
+  social_auth.user_authenticator:
+    class: Drupal\vihreattapahtumat_social_auth\User\ManualLinkingUserAuthenticator
+    arguments:
+      - '@current_user'
+      - '@messenger'
+      - '@logger.factory'
+      - '@social_auth.user_manager'
+      - '@social_auth.data_handler'
+      - '@config.factory'
+      - '@router.route_provider'
+      - '@event_dispatcher'

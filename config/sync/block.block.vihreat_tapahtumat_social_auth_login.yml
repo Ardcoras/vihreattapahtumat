@@ -1,0 +1,34 @@
+uuid: 1d4ae3b7-32fd-41f6-8473-13c5b5bb099f
+langcode: fi
+status: true
+dependencies:
+  config:
+    - user.role.anonymous
+  module:
+    - social_auth
+    - user
+  theme:
+    - vihreat_tapahtumat
+id: vihreat_tapahtumat_social_auth_login
+theme: vihreat_tapahtumat
+region: content
+weight: -5
+provider: null
+plugin: social_auth_login
+settings:
+  id: social_auth_login
+  label: 'Kirjaudu Googlella'
+  label_display: visible
+  provider: social_auth
+visibility:
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      anonymous: anonymous
+  request_path:
+    id: request_path
+    negate: false
+    pages: /user/login

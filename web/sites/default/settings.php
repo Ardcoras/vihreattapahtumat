@@ -869,6 +869,7 @@ $databases['default']['default'] = array (
 
 $settings['trusted_host_patterns'] = [
   'tapahtumat.vihreaturku.fi',
+  'tapahtumat.vihreat.fi',
   'localhost',
   'vihreattapahtumat.docker.so',
   'vihreattapahtumat-epaccmadgcbgfpaz.swedencentral-01.azurewebsites.net',

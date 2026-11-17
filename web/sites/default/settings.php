@@ -906,6 +906,8 @@ if (!empty($_ENV['GOOGLE_CLIENT_SECRET'])) {
   $config['social_auth_google.settings']['client_secret'] = $_ENV['GOOGLE_CLIENT_SECRET'];
 }
 
+require __DIR__ . '/settings.mail.php';
+
 if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
   include $app_root . '/' . $site_path . '/settings.local.php';
 }
